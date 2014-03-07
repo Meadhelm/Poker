@@ -1,0 +1,99 @@
+<!DOCTYPE project>
+<project name="Poker" default="build" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<description>
+        Runs pre-commit build.
+    </description>
+
+	<property file="build.properties" />
+
+	<path id="classpath.application">
+		<fileset dir="${dir.lib}/app" includes="*.jar" />
+	</path>
+
+	<path id="classpath.application.tests">
+		<fileset dir="${dir.lib}/dev" includes="*.jar" />
+		<pathelement path="${dir.binaries}" />
+		<path refid="classpath.application" />
+	</path>
+
+	<target name="build" depends="-init, -compile, -compile_junitTests, -run_junitTests, -clean">
+
+	</target>
+
+	<target name="-clean" description="clean up">
+		<delete dir="${dir.build}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.lib}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.junitResults}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.junitReports}" failonerror="false" includeemptydirs="true" />
+	</target>
+
+	<target name="-init">
+		<delete dir="${dir.build}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.lib}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.junitResults}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.junitReports}" failonerror="false" includeemptydirs="true" />
+		<mkdir dir="${dir.build}" />
+		<mkdir dir="${dir.lib}" />
+		<mkdir dir="${dir.binaries}" />
+		<mkdir dir="${dir.testBinaries}" />
+		<mkdir dir="${dir.log}" />
+		<mkdir dir="${dir.junitResults}" />
+		<mkdir dir="${dir.junitReports}" />
+
+		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+			<classpath>
+				<fileset dir="${dir.ivy}" includes="ivy-*.jar" />
+			</classpath>
+		</taskdef>
+		<ivy:settings file="../ivysettings.xml" />
+		<ivy:retrieve file="../ivy.xml" pattern="${dir.lib}/[conf]/[artifact](-[classifier]).[ext]" sync="true" taskname="ivy" />
+	</target>
+
+	<target name="-compile" description="compile the source">
+		<javac srcdir="${dir.source}" destdir="${dir.binaries}" source="1.7" target="1.7" debug="true" fork="true" includeantruntime="false">
+			<classpath refid="classpath.application" />
+		</javac>
+	</target>
+
+	<target name="-compile_junitTests" description="compile the unit tests source">
+		<javac srcdir="${dir.unitTestSource}" destdir="${dir.testBinaries}" source="1.7" target="1.7" debug="true" fork="true" includeantruntime="false">
+			<classpath refid="classpath.application.tests" />
+		</javac>
+	</target>
+
+	<target name="-run_junitTests">
+		<junit fork="true" forkmode="once" failureproperty="tests.failed" haltonfailure="false" printsummary="on">
+			<batchtest todir="${dir.junitResults}">
+				<fileset dir="${dir.testBinaries}">
+					<include name="**/*Tests.class" />
+				</fileset>
+			</batchtest>
+
+
+			<classpath>
+				<path refid="classpath.application.tests" />
+				<pathelement path="${dir.binaries}" />
+				<pathelement path="${dir.testBinaries}" />
+			</classpath>
+
+			<formatter type="xml" usefile="yes" />
+		</junit>
+
+		<junitreport todir="${dir.junitReports}" tofile="junit_raw">
+			<fileset dir="${dir.junitResults}" includes="TEST-*.xml" />
+			<report format="frames" todir="${dir.junitReports}" />
+		</junitreport>
+
+		<fail if="tests.failed">One or more tests failed!</fail>
+	</target>
+
+	<target name="-dist" description="generate the distribution">
+
+	</target>
+
+</project>

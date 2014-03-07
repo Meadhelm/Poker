@@ -1,1 +1,4 @@
-/bin
+/ant/log
+/ant/bin
+/ant/build
+/ant/testBin

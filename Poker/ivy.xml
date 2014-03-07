@@ -36,7 +36,6 @@
     	<!-- Development Libraries (Testing) -->
     	<dependency name="junit" org="junit" rev="4.7" conf="dev" />
     	<dependency name="mockito-all" org="org.mockito" rev="1.9.5" conf="dev" />
-
         
     </dependencies>
 </ivy-module>
