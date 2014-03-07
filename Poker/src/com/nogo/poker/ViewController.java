@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Handles requests for the application home page.
+ * Servers up the web pages.
  */
 @Controller
-public class HomeController {
+public class ViewController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
