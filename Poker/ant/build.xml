@@ -31,6 +31,8 @@
 	</target>
 
 	<target name="-init">
+		<antcall target="-clean">
+		</antcall>
 		<delete dir="${dir.build}" failonerror="false" includeemptydirs="true" />
 		<delete dir="${dir.lib}" failonerror="false" includeemptydirs="true" />
 		<delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true" />

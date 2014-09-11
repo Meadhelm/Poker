@@ -5,6 +5,7 @@
 <ivysettings>
 
 	<property name="spring-version" value="4.0.2.RELEASE" />
+	<property name="jackson-version" value="2.4.2" />
 
     <resolvers>
 		<chain name="default" returnFirst="true">
