@@ -3,6 +3,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/config" source-path="/config"/>
         <wb-resource deploy-path="/" source-path="/WebContent"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
 		<property name="java-output-path" value="target/classes"/>
         <property name="context-root" value="poker"/>
 	</wb-module>

@@ -9,11 +9,13 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public class PokerInitializer implements WebApplicationInitializer
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+
+public final class PokerInitializer implements WebApplicationInitializer
 {
     @Override
-    public void onStartup(final ServletContext container)
-            throws ServletException
+    public void onStartup(final ServletContext container) throws ServletException
     {
         // Create the 'root' Spring application context
         final AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
@@ -27,9 +29,13 @@ public class PokerInitializer implements WebApplicationInitializer
         dispatcherContext.register(DispatcherConfig.class);
 
         // Register and map the dispatcher servlet
-        final ServletRegistration.Dynamic dispatcher = container.addServlet(
-                "Poker", new DispatcherServlet(dispatcherContext));
+        final ServletRegistration.Dynamic dispatcher = container.addServlet("Poker", new DispatcherServlet(
+                dispatcherContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
+
+        final ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JodaModule());
+        objectMapper.configure(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     }
 }

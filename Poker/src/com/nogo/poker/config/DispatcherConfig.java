@@ -1,8 +1,12 @@
 package com.nogo.poker.config;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -15,32 +19,45 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 public class DispatcherConfig extends WebMvcConfigurerAdapter
 {
+    private static final String MESSAGE_SOURCE = "/resources/messages";
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry)
+    public void addResourceHandlers(final ResourceHandlerRegistry registry)
     {
-        registry.addResourceHandler("/resources/css/**")
-                .addResourceLocations("/css/").setCachePeriod(31556926);
-        registry.addResourceHandler("/resources/img/**")
-                .addResourceLocations("/img/").setCachePeriod(31556926);
-        registry.addResourceHandler("/resources/js/**")
-                .addResourceLocations("/js/").setCachePeriod(31556926);
+        registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/").setCachePeriod(31556926);
+        registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/").setCachePeriod(31556926);
+    }
+
+    @Override
+    public void configureDefaultServletHandling(final DefaultServletHandlerConfigurer configurer)
+    {
+        configurer.enable();
     }
 
     @Bean
     public InternalResourceViewResolver getInternalResourceViewResolver()
     {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        final InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/");
         resolver.setSuffix(".html");
         return resolver;
     }
 
-    @Override
-    public void configureDefaultServletHandling(
-            DefaultServletHandlerConfigurer configurer)
+    @Bean(name = "messageSource")
+    public MessageSource messageSource()
     {
-        configurer.enable();
+        final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename(MESSAGE_SOURCE);
+        messageSource.setCacheSeconds(5);
+        return messageSource;
+    }
+
+    @Override
+    public Validator getValidator()
+    {
+        final LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setValidationMessageSource(messageSource());
+        return validator;
     }
 
 }
