@@ -57,13 +57,13 @@
 	</target>
 
 	<target name="-compile" description="compile the source">
-		<javac srcdir="${dir.source}" destdir="${dir.binaries}" source="1.7" target="1.7" debug="true" fork="true" includeantruntime="false">
+		<javac srcdir="${dir.source}" destdir="${dir.binaries}" source="1.8" target="1.8" debug="true" fork="true" includeantruntime="false">
 			<classpath refid="classpath.application" />
 		</javac>
 	</target>
 
 	<target name="-compile_junitTests" description="compile the unit tests source">
-		<javac srcdir="${dir.unitTestSource}" destdir="${dir.testBinaries}" source="1.7" target="1.7" debug="true" fork="true" includeantruntime="false">
+		<javac srcdir="${dir.unitTestSource}" destdir="${dir.testBinaries}" source="1.8" target="1.8" debug="true" fork="true" includeantruntime="false">
 			<classpath refid="classpath.application.tests" />
 		</javac>
 	</target>
