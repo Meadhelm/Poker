@@ -26,7 +26,10 @@ public class UserService {
 
   public User retrieveUser(final String id) {
     // throw new ResourceNotFoundException();
-    return new User.Builder().withName("Chad").withEmail("chadnogosek@gmail.com")
-        .withCreatedDate(DateTime.now()).withModifiedDate(DateTime.now()).build();
+    return new User.Builder().withName("Chad")
+        .withEmail("chadnogosek@gmail.com")
+        .withCreatedDate(DateTime.now())
+        .withModifiedDate(DateTime.now())
+        .build();
   }
 }
