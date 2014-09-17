@@ -19,17 +19,19 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.nogo.poker.web.RequestContextResolver;
 
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.nogo.poker"})
+@ComponentScan(basePackages = {"com.nogo"})
 @Configuration
 public class DispatcherConfig extends WebMvcConfigurerAdapter {
   private static final String MESSAGE_SOURCE = "/resources/messages";
 
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/")
-        .setCachePeriod(31556926);
-    registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/")
-        .setCachePeriod(31556926);
+    registry.addResourceHandler("/css/**")
+        .addResourceLocations("/resources/css/")
+    .setCachePeriod(31556926);
+    registry.addResourceHandler("/js/**")
+        .addResourceLocations("/resources/js/")
+    .setCachePeriod(31556926);
   }
 
   @Override

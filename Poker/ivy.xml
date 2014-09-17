@@ -28,11 +28,18 @@
     	<dependency name="spring-web" org="org.springframework" rev="${spring-version}" />
         <dependency name="spring-webmvc" org="org.springframework" rev="${spring-version}" />
         <dependency name="spring-test" org="org.springframework" rev="${spring-version}" conf="dev" />
+        
         <!-- Jackson -->
         <dependency name="jackson-core" org="com.fasterxml.jackson.core" rev="${jackson-version}" />
         <dependency name="jackson-annotations" org="com.fasterxml.jackson.core" rev="${jackson-version}" />
         <dependency name="jackson-databind" org="com.fasterxml.jackson.core" rev="${jackson-version}" />
 		<dependency org="com.fasterxml.jackson.datatype" name="jackson-datatype-joda" rev="${jackson-version}"/>
+		
+		<!--  AspectJ -->
+		<dependency name="aopalliance" org="aopalliance" rev="1.0" />
+		<dependency name="aspectjrt" org="org.aspectj" rev="${aspectj-version}" />
+		<dependency name="aspectjweaver" org="org.aspectj" rev="${aspectj-version}" />
+		
         
         <!-- Other Libraries -->
         <dependency name="log4j" org="log4j" rev="1.2.15" />

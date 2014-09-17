@@ -13,17 +13,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.nogo.api.annotation.Document;
+import com.nogo.api.annotation.Endpoint;
 import com.nogo.poker.user.domain.User;
 import com.nogo.poker.user.domain.UserService;
 import com.nogo.poker.web.RequestContext;
 
+@Document
 @Controller
-public final class UserController {
+public class UserController {
   @Autowired
   private UserService userService;
 
+  @Endpoint(name = "CREATE.USER")
   @RequestMapping(value = "/v1/user", method = RequestMethod.POST,
-      consumes = MediaType.APPLICATION_JSON_VALUE)
+  consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public String createUser(final RequestContext requestContext,
@@ -31,8 +35,9 @@ public final class UserController {
     return userService.createUser(user.toDomainObject());
   }
 
+  @Endpoint(name = "RETRIEVE.USER")
   @RequestMapping(value = "/v1/user/{id}", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public UserDto retrieve(final RequestContext requestContext, @PathVariable final String id) {
