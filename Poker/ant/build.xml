@@ -17,7 +17,7 @@
 		<path refid="classpath.application" />
 	</path>
 
-	<target name="build" depends="-init, -compile, -compile_junitTests, -run_junitTests, -clean">
+	<target name="build" depends="-init, -compile, -compile_junitTests, -compile_endpointTests, -run_junitTests, -run_endpointTests">
 
 	</target>
 
@@ -25,27 +25,27 @@
 		<delete dir="${dir.build}" failonerror="false" includeemptydirs="true" />
 		<delete dir="${dir.lib}" failonerror="false" includeemptydirs="true" />
 		<delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true" />
-		<delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.unitTestBinaries}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.endpointTestBinaries}" failonerror="false" includeemptydirs="true" />
 		<delete dir="${dir.junitResults}" failonerror="false" includeemptydirs="true" />
 		<delete dir="${dir.junitReports}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.endpointTestResults}" failonerror="false" includeemptydirs="true" />
+		<delete dir="${dir.endpointTestReports}" failonerror="false" includeemptydirs="true" />
 	</target>
 
 	<target name="-init">
 		<antcall target="-clean">
 		</antcall>
-		<delete dir="${dir.build}" failonerror="false" includeemptydirs="true" />
-		<delete dir="${dir.lib}" failonerror="false" includeemptydirs="true" />
-		<delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true" />
-		<delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true" />
-		<delete dir="${dir.junitResults}" failonerror="false" includeemptydirs="true" />
-		<delete dir="${dir.junitReports}" failonerror="false" includeemptydirs="true" />
 		<mkdir dir="${dir.build}" />
 		<mkdir dir="${dir.lib}" />
 		<mkdir dir="${dir.binaries}" />
-		<mkdir dir="${dir.testBinaries}" />
+		<mkdir dir="${dir.unitTestBinaries}" />
 		<mkdir dir="${dir.log}" />
 		<mkdir dir="${dir.junitResults}" />
 		<mkdir dir="${dir.junitReports}" />
+		<mkdir dir="${dir.endpointTestBinaries}" />
+		<mkdir dir="${dir.endpointTestReports}" />
+		<mkdir dir="${dir.endpointTestResults}" />
 
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
 			<classpath>
@@ -63,7 +63,13 @@
 	</target>
 
 	<target name="-compile_junitTests" description="compile the unit tests source">
-		<javac srcdir="${dir.unitTestSource}" destdir="${dir.testBinaries}" source="1.8" target="1.8" debug="true" fork="true" includeantruntime="false">
+		<javac srcdir="${dir.unitTestSource}" destdir="${dir.unitTestBinaries}" source="1.8" target="1.8" debug="true" fork="true" includeantruntime="false">
+			<classpath refid="classpath.application.tests" />
+		</javac>
+	</target>
+	
+	<target name="-compile_endpointTests" description="compile the unit endpoint tests source">
+		<javac srcdir="${dir.endpointTestSource}" destdir="${dir.endpointTestBinaries}" source="1.8" target="1.8" debug="true" fork="true" includeantruntime="false">
 			<classpath refid="classpath.application.tests" />
 		</javac>
 	</target>
@@ -71,7 +77,7 @@
 	<target name="-run_junitTests">
 		<junit fork="true" forkmode="once" failureproperty="tests.failed" haltonfailure="false" printsummary="on">
 			<batchtest todir="${dir.junitResults}">
-				<fileset dir="${dir.testBinaries}">
+				<fileset dir="${dir.unitTestBinaries}">
 					<include name="**/*Tests.class" />
 				</fileset>
 			</batchtest>
@@ -80,7 +86,7 @@
 			<classpath>
 				<path refid="classpath.application.tests" />
 				<pathelement path="${dir.binaries}" />
-				<pathelement path="${dir.testBinaries}" />
+				<pathelement path="${dir.unitTestBinaries}" />
 			</classpath>
 
 			<formatter type="xml" usefile="yes" />
@@ -89,6 +95,32 @@
 		<junitreport todir="${dir.junitReports}" tofile="junit_raw">
 			<fileset dir="${dir.junitResults}" includes="TEST-*.xml" />
 			<report format="frames" todir="${dir.junitReports}" />
+		</junitreport>
+
+		<fail if="tests.failed">One or more tests failed!</fail>
+	</target>
+	
+	<target name="-run_endpointTests">
+		<junit fork="true" forkmode="once" failureproperty="tests.failed" haltonfailure="false" printsummary="on">
+			<batchtest todir="${dir.endpointTestResults}">
+				<fileset dir="${dir.endpointTestBinaries}">
+					<include name="**/*Tests.class" />
+				</fileset>
+			</batchtest>
+
+
+			<classpath>
+				<path refid="classpath.application.tests" />
+				<pathelement path="${dir.binaries}" />
+				<pathelement path="${dir.endpointTestBinaries}" />
+			</classpath>
+
+			<formatter type="xml" usefile="yes" />
+		</junit>
+
+		<junitreport todir="${dir.endpointTestReports}" tofile="junit_raw">
+			<fileset dir="${dir.endpointTestResults}" includes="TEST-*.xml" />
+			<report format="frames" todir="${dir.endpointTestReports}" />
 		</junitreport>
 
 		<fail if="tests.failed">One or more tests failed!</fail>
