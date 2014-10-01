@@ -17,7 +17,11 @@
 		<path refid="classpath.application" />
 	</path>
 
-	<target name="build" depends="-init, -compile, -compile_junitTests, -compile_endpointTests, -run_junitTests, -run_endpointTests">
+	<target name="build" depends="-init, -compile, -compile_junitTests, -compile_endpointTests, -run_junitTests, -run_endpointTests, -dist">
+
+	</target>
+	
+	<target name="clean" depends="-clean">
 
 	</target>
 
@@ -82,7 +86,6 @@
 				</fileset>
 			</batchtest>
 
-
 			<classpath>
 				<path refid="classpath.application.tests" />
 				<pathelement path="${dir.binaries}" />
@@ -108,7 +111,6 @@
 				</fileset>
 			</batchtest>
 
-
 			<classpath>
 				<path refid="classpath.application.tests" />
 				<pathelement path="${dir.binaries}" />
@@ -127,7 +129,11 @@
 	</target>
 
 	<target name="-dist" description="generate the distribution">
-
+		<war destfile="${dir.dist}/${war.name}">
+			<fileset dir="${dir.webcontent}"/>
+			<lib dir="${dir.lib}/app"/>
+			<classes dir="${dir.binaries}"/>
+		</war>
 	</target>
 
 </project>

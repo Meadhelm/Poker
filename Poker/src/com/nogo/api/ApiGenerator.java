@@ -50,7 +50,7 @@ public class ApiGenerator {
   private EndpointDto generateEndpointDto(final Method method, final RequestMapping requestMapping) {
     final EndpointDto endpoint = new EndpointDto();
     endpoint.setType(requestMapping.method()[0].name());
-    endpoint.setUri(String.format("/realestate%s", requestMapping.value()[0].toString()));
+    endpoint.setUri(String.format("%s", requestMapping.value()[0].toString()));
 
     final ResponseStatus responseStatus = method.getAnnotation(ResponseStatus.class);
     if (responseStatus != null) {
