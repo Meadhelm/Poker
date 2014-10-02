@@ -133,6 +133,7 @@
 			<fileset dir="${dir.webcontent}"/>
 			<lib dir="${dir.lib}/app"/>
 			<classes dir="${dir.binaries}"/>
+			<classes dir="${dir.configuration}"/>
 		</war>
 	</target>
 
