@@ -3,13 +3,14 @@ package com.nogo.poker.user.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Range;
 import org.joda.time.DateTime;
 
 public class User {
-  @Range(min = 0, max = 64)
+  @Size(min = 0, max = 64)
   private String name;
 
   @Email
