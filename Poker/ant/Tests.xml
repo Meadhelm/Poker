@@ -3,12 +3,84 @@
 
     <property file="global.properties" />
 
+    <path id="classpath.application.tests">
+        <fileset dir="${dir.lib}/master" includes="*.jar" />
+        <fileset dir="${dir.lib}/local" includes="*.jar" />
+        <pathelement path="${dir.bin}" />
+    </path>
+
     <target name="-echo">
         <echo>Running automated tests using these parameters:</echo>
+        <echo>Libraries Location: ${dir.lib}</echo>
+        <echo>Binaries: ${dir.bin}</echo>
+        <echo>Script Binaries: ${dir.bin.script}</echo>
+        <echo>Unit Test Binaries: ${dir.bin.unit}</echo>
+        <echo>Endpoint Test Binaries: ${dir.bin.endpoint}</echo>
+        <echo>Unit Test Results Location: ${dir.unit.test.results}</echo>
+        <echo>Unit Test Reports Location: ${dir.unit.test.reports}</echo>
+        <echo>Endpoint Test Results Location: ${dir.endpoint.test.results}</echo>
+        <echo>Endpoint Test Reports Location: ${dir.endpoint.test.reports}</echo>
     </target>
 
-    <target name="tests" depends="-echo">
-        <echo>Tests pending...</echo>
+    <target name="tests" depends="-echo,-run_junitTests, -run_endpointTests">
+    </target>
+
+    <target name="-run_junitTests">
+        <delete dir="${dir.unit.test.results}" />
+        <delete dir="${dir.unit.test.reports}" />
+        <delete dir="$dir.endpoint.test.results}" />
+        <delete dir="${dir.endpoint.test.reports}" />
+
+        <mkdir dir="${dir.unit.test.results}" />
+        <mkdir dir="${dir.unit.test.reports}" />
+        <mkdir dir="${dir.endpoint.test.results}" />
+        <mkdir dir="${dir.endpoint.test.reports}" />
+
+        <junit fork="true" forkmode="once" failureproperty="tests.failed" haltonfailure="false" printsummary="on">
+            <batchtest todir="${dir.unit.test.results}">
+                <fileset dir="${dir.bin.unit}">
+                    <include name="**/*Tests.class" />
+                </fileset>
+            </batchtest>
+
+            <classpath>
+                <path refid="classpath.application.tests" />
+                <pathelement path="${dir.bin.unit}" />
+            </classpath>
+
+            <formatter type="xml" usefile="yes" />
+        </junit>
+
+        <junitreport todir="${dir.unit.test.reports}" tofile="junit_raw">
+            <fileset dir="${dir.unit.test.results}" includes="TEST-*.xml" />
+            <report format="frames" todir="${dir.unit.test.reports}" />
+        </junitreport>
+
+        <fail if="tests.failed">One or more tests failed!</fail>
+    </target>
+
+    <target name="-run_endpointTests">
+        <junit fork="true" forkmode="once" failureproperty="tests.failed" haltonfailure="false" printsummary="on">
+            <batchtest todir="${dir.endpoint.test.results}">
+                <fileset dir="${dir.bin.endpoint}">
+                    <include name="**/*Tests.class" />
+                </fileset>
+            </batchtest>
+
+            <classpath>
+                <path refid="classpath.application.tests" />
+                <pathelement path="${dir.bin.endpoint}" />
+            </classpath>
+
+            <formatter type="xml" usefile="yes" />
+        </junit>
+
+        <junitreport todir="${dir.endpoint.test.reports}" tofile="junit_raw">
+            <fileset dir="${dir.endpoint.test.results}" includes="TEST-*.xml" />
+            <report format="frames" todir="${dir.endpoint.test.reports}" />
+        </junitreport>
+
+        <fail if="tests.failed">One or more tests failed!</fail>
     </target>
 
 </project>

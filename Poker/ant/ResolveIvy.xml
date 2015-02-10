@@ -2,15 +2,13 @@
 <project default="resolve" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <property file="global.properties" />
-    <property name="ivy" value="${ivy}" />
-    <property name="ivysettings" value="${ivysettings}" />
-    <property name="retrieve.location" value="${source.libraries}" />
 
     <target name="-echo">
         <echo>Resolving Ivy dependencies with these parameters:</echo>
         <echo>Ivy: ${ivy}</echo>
         <echo>Ivy Settings: ${ivysettings}</echo>
-        <echo>Retrieve Location: ${retrieve.location}</echo>
+        <echo>Retrieve Location: ${dir.lib}</echo>
+        <echo>Ivy Report Location: ${dir.ivy.report}</echo>
     </target>
 
     <target name="resolve" depends="-echo">
@@ -21,7 +19,8 @@
         </taskdef>
 
         <ivy:settings file="../ivysettings.xml" />
-        <ivy:retrieve file="../ivy.xml" pattern="${retrieve.location}/[conf]/[artifact](-[classifier]).[ext]" />
+        <ivy:retrieve file="../ivy.xml" pattern="${dir.lib}/[conf]/[artifact](-[classifier]).[ext]" />
+        <ivy:report todir="${dir.ivy.report}" />
     </target>
 
 </project>

@@ -2,46 +2,58 @@
 <project default="compile" basedir=".">
 
     <property file="global.properties" />
-    <property name="src" value="${source.location}" />
-    <property name="srcScript" value="${script.location}" />
-    <property name="bin" value="${binaries.location}" />
-    <property name="binScript" value="${script.binaries.location}" />
-    <property name="jar.location" value="${jar.location}" />
-    <property name="java.version" value="${java.version}" />
-    <property name="libraries.location" value="${source.libraries}" />
 
-    <path id="libraries">
-        <fileset dir="${libraries.location}" includes="**/*.jar" />
-        <pathelement path="${bin}"/>
+    <path id="classpath.app">
+        <fileset dir="${dir.lib}/master" includes="**/*.jar" />
+    </path>
+
+    <path id="classpath.script">
+        <pathelement path="${dir.bin}" />
+        <path refid="classpath.app" />
+    </path>
+
+    <path id="classpath.test">
+        <pathelement path="${dir.bin}" />
+        <path refid="classpath.app" />
+        <fileset dir="${dir.lib}/local" includes="**/*.jar" />
     </path>
 
     <target name="-echo">
         <echo>Compile script executing with these parameters:</echo>
-        <echo>Source: ${src}</echo>
-        <echo>Script: ${srcScript}</echo>
-        <echo>Binaries: ${bin}</echo>
-        <echo>Script Binaries: ${binScript}</echo>
-        <echo>Api Generator Jar: ${jar.location}/ApiGenerator.jar</echo>
         <echo>Java Version: ${java.version}</echo>
-        <echo>Libraries Location: ${libraries.location}</echo>
+        <echo>Libraries Location: ${dir.lib}</echo>
+        <echo>Source: ${dir.src}</echo>
+        <echo>Scripts: ${dir.src.script}</echo>
+        <echo>Unit Tests: ${dir.src.unit}</echo>
+        <echo>Endpoint Tests: ${dir.src.endpoint}</echo>
+        <echo>Binaries: ${dir.bin}</echo>
+        <echo>Script Binaries: ${dir.bin.script}</echo>
+        <echo>Unit Test Binaries: ${dir.bin.unit}</echo>
+        <echo>Endpoint Test Binaries: ${dir.bin.endpoint}</echo>
     </target>
-    
+
     <target name="compile" depends="-echo, -compile, -jar">
     </target>
 
     <target name="-compile">
-        <delete dir="${bin}" />
-        <delete dir="${binScript}" />
-        <mkdir dir="${bin}" />
-        <mkdir dir="${binScript}" />
-        <javac srcdir="${src}" destdir="${bin}" includeAntRuntime="false" classpathref="libraries" />
-        <javac srcdir="${srcScript}" destdir="${binScript}" includeAntRuntime="false" classpathref="libraries" />
+        <delete dir="${dir.bin}" />
+        <delete dir="${dir.bin.script}" />
+        <delete dir="${dir.bin.unit}" />
+        <delete dir="${dir.bin.endpoint}" />
+        <mkdir dir="${dir.bin}" />
+        <mkdir dir="${dir.bin.script}" />
+        <mkdir dir="${dir.bin.unit}" />
+        <mkdir dir="${dir.bin.endpoint}" />
+        <javac srcdir="${dir.src}" destdir="${dir.bin}" includeAntRuntime="false" classpathref="classpath.app" />
+        <javac srcdir="${dir.src.script}" destdir="${dir.bin.script}" includeAntRuntime="false" classpathref="classpath.script" />
+        <javac srcdir="${dir.src.unit}" destdir="${dir.bin.unit}" includeAntRuntime="false" classpathref="classpath.test" />
+        <javac srcdir="${dir.src.endpoint}" destdir="${dir.bin.endpoint}" includeAntRuntime="false" classpathref="classpath.test" />
     </target>
 
     <target name="-jar">
         <mkdir dir="${jar.location}" />
-        <jar destfile="${jar.location}/Poker.jar" basedir="${bin}" />
-        <jar destfile="${jar.location}/ApiGenerator.jar" basedir="${binScript}" />
+        <jar destfile="${jar.location}/Poker.jar" basedir="${dir.bin}" />
+        <jar destfile="${jar.location}/ApiGenerator.jar" basedir="${dir.bin.script}" />
     </target>
 
 </project>

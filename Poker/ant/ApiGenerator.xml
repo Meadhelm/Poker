@@ -3,29 +3,25 @@
 
     <property file="global.properties" />
 
-    <property name="api.generator" value="${api.generator}" />
-
-    <property name="libraries.location" value="${source.libraries}" />
-    <property name="documentation" value="${documentation.location}" />
-
-    <path id="libraries">
-        <fileset dir="${libraries.location}" includes="**/*.jar" />
-        <fileset dir="${jar.location}" includes="**/*.jar" />
+    <path id="classpath.script">
+        <fileset dir="${dir.lib}/master" includes="**/*.jar" />
+        <pathelement path="${dir.bin}" />
+        <pathelement path="${dir.bin.script}" />
     </path>
-    <pathconvert property="classpathProp" refid="libraries" />
+    <pathconvert property="classpathProp" refid="classpath.script" />
 
     <target name="-echo">
         <echo>Generating WebServices API</echo>
         <echo>Main is ${api.generator}</echo>
         <echo>Classpath is ${classpathProp}</echo>
-        <echo>Documentation location is ${documentation}</echo>
+        <echo>Documentation location is ${dir.doc}</echo>
     </target>
 
     <target name="generate" depends='-echo'>
-        <delete dir="${documentation}" />
-        <mkdir dir="${documentation.location}" />
-        <java classname="${api.generator}" fork="true" classpathref="libraries">
-            <arg value="${documentation.location}" />
+        <delete dir="${dir.doc}" />
+        <mkdir dir="${dir.doc}" />
+        <java classname="${api.generator}" fork="true" classpathref="classpath.script">
+            <arg value="${dir.doc}" />
         </java>
     </target>
 

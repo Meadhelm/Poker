@@ -2,15 +2,9 @@
 <project default="checkstyle" basedir=".">
 
     <property file="global.properties" />
-    <property name="src" value="${source.location}" />
-
-    <path id="libraries">
-        <fileset dir="${libraries.location}" includes="**/*.jar" />
-    </path>
 
     <target name="-echo">
         <echo>Inspecting code with CheckStyle using these parameters:</echo>
-        <echo>Source: ${src}</echo>
     </target>
 
     <target name="checkstyle" depends="-echo">

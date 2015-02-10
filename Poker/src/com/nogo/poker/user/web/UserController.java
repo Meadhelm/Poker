@@ -40,7 +40,7 @@ public class UserController {
   produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public UserDto retrieve(final RequestContext requestContext, @PathVariable final String id) {
+  public UserDto retrieve(final RequestContext requestContext, @PathVariable("id") final String id) {
     final User user = userService.retrieveUser(id);
 
     return new UserDto(user);
