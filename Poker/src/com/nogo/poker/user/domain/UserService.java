@@ -5,13 +5,13 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nogo.poker.common.Validator;
+import com.nogo.poker.common.validation.ValidationService;
 import com.nogo.poker.user.repo.UserRepository;
 
 @Service
 public class UserService {
   @Autowired
-  private Validator validator;
+  private ValidationService validator;
 
   @Autowired
   private UserRepository userRepo;

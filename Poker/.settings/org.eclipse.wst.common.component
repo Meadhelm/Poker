@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-	<wb-module deploy-name="Poker">
-        <wb-resource deploy-path="/" source-path="/WebContent"/>
+    <wb-module deploy-name="Sandbox">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/conf"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/script"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/Scripts"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/Configuration"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-		<property name="java-output-path" value="target/classes"/>
-        <property name="context-root" value="Poker"/>
-	</wb-module>
+        <property name="context-root" value="Sandbox"/>
+        <property name="java-output-path" value="/Sandbox/build/classes"/>
+    </wb-module>
 </project-modules>
