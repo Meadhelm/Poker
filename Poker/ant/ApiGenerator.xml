@@ -1,0 +1,32 @@
+<!DOCTYPE project>
+<project default="generate" basedir=".">
+
+    <property file="global.properties" />
+
+    <property name="api.generator" value="${api.generator}" />
+
+    <property name="libraries.location" value="${source.libraries}" />
+    <property name="documentation" value="${documentation.location}" />
+
+    <path id="libraries">
+        <fileset dir="${libraries.location}" includes="**/*.jar" />
+        <fileset dir="${jar.location}" includes="**/*.jar" />
+    </path>
+    <pathconvert property="classpathProp" refid="libraries" />
+
+    <target name="-echo">
+        <echo>Generating WebServices API</echo>
+        <echo>Main is ${api.generator}</echo>
+        <echo>Classpath is ${classpathProp}</echo>
+        <echo>Documentation location is ${documentation}</echo>
+    </target>
+
+    <target name="generate" depends='-echo'>
+        <delete dir="${documentation}" />
+        <mkdir dir="${documentation.location}" />
+        <java classname="${api.generator}" fork="true" classpathref="libraries">
+            <arg value="${documentation.location}" />
+        </java>
+    </target>
+
+</project>

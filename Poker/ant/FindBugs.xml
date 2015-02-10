@@ -1,0 +1,14 @@
+<!DOCTYPE project>
+<project default="findbugs" basedir=".">
+
+    <property file="global.properties" />
+
+    <target name="-echo">
+        <echo>Inspecting code with FindBugs using these parameters:</echo>
+    </target>
+
+    <target name="findbugs" depends="-echo">
+        <echo>FindBugs pending...</echo>
+    </target>
+
+</project>

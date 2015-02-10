@@ -1,0 +1,47 @@
+<!DOCTYPE project>
+<project default="compile" basedir=".">
+
+    <property file="global.properties" />
+    <property name="src" value="${source.location}" />
+    <property name="srcScript" value="${script.location}" />
+    <property name="bin" value="${binaries.location}" />
+    <property name="binScript" value="${script.binaries.location}" />
+    <property name="jar.location" value="${jar.location}" />
+    <property name="java.version" value="${java.version}" />
+    <property name="libraries.location" value="${source.libraries}" />
+
+    <path id="libraries">
+        <fileset dir="${libraries.location}" includes="**/*.jar" />
+        <pathelement path="${bin}"/>
+    </path>
+
+    <target name="-echo">
+        <echo>Compile script executing with these parameters:</echo>
+        <echo>Source: ${src}</echo>
+        <echo>Script: ${srcScript}</echo>
+        <echo>Binaries: ${bin}</echo>
+        <echo>Script Binaries: ${binScript}</echo>
+        <echo>Api Generator Jar: ${jar.location}/ApiGenerator.jar</echo>
+        <echo>Java Version: ${java.version}</echo>
+        <echo>Libraries Location: ${libraries.location}</echo>
+    </target>
+    
+    <target name="compile" depends="-echo, -compile, -jar">
+    </target>
+
+    <target name="-compile">
+        <delete dir="${bin}" />
+        <delete dir="${binScript}" />
+        <mkdir dir="${bin}" />
+        <mkdir dir="${binScript}" />
+        <javac srcdir="${src}" destdir="${bin}" includeAntRuntime="false" classpathref="libraries" />
+        <javac srcdir="${srcScript}" destdir="${binScript}" includeAntRuntime="false" classpathref="libraries" />
+    </target>
+
+    <target name="-jar">
+        <mkdir dir="${jar.location}" />
+        <jar destfile="${jar.location}/Poker.jar" basedir="${bin}" />
+        <jar destfile="${jar.location}/ApiGenerator.jar" basedir="${binScript}" />
+    </target>
+
+</project>

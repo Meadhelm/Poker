@@ -1,0 +1,41 @@
+<!DOCTYPE project>
+<project name="Poker's Developer Build.xml" default="build" basedir=".">
+
+	<target name="build"
+		depends="-ivy, -compile, -api, -checkstyle, -findbugs, -codecoverage, -tests, -distro">
+		<echo>Build Success!</echo>
+	</target>
+
+    <target name="-ivy">
+        <ant antfile="ResolveIvy.xml" />
+    </target>
+
+	<target name="-compile">
+		<ant antfile="Compile.xml" />
+	</target>
+
+	<target name="-checkstyle">
+		<ant antfile="CheckStyle.xml" />
+	</target>
+
+	<target name="-findbugs">
+		<ant antfile="FindBugs.xml" />
+	</target>
+
+	<target name="-codecoverage">
+		<ant antfile="CodeCoverage.xml" />
+	</target>
+
+	<target name="-tests">
+		<ant antfile="Tests.xml" />
+	</target>
+
+	<target name="-distro">
+		<ant antfile="Distribution.xml" />
+	</target>
+    
+    <target name="-api">
+        <ant antfile="ApiGenerator.xml" />
+    </target>
+
+</project>

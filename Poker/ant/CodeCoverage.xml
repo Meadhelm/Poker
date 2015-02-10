@@ -1,0 +1,14 @@
+<!DOCTYPE project>
+<project default="coverage" basedir=".">
+
+    <property file="global.properties" />
+
+    <target name="-echo">
+        <echo>Running code coverage analysis using these parameters:</echo>
+    </target>
+
+    <target name="coverage" depends="-echo">
+        <echo>CodeCoverage pending...</echo>
+    </target>
+
+</project>

@@ -1,0 +1,27 @@
+<!DOCTYPE project>
+<project default="resolve" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <property file="global.properties" />
+    <property name="ivy" value="${ivy}" />
+    <property name="ivysettings" value="${ivysettings}" />
+    <property name="retrieve.location" value="${source.libraries}" />
+
+    <target name="-echo">
+        <echo>Resolving Ivy dependencies with these parameters:</echo>
+        <echo>Ivy: ${ivy}</echo>
+        <echo>Ivy Settings: ${ivysettings}</echo>
+        <echo>Retrieve Location: ${retrieve.location}</echo>
+    </target>
+
+    <target name="resolve" depends="-echo">
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant">
+            <classpath>
+                <fileset dir="ivy" includes="ivy-*.jar" />
+            </classpath>
+        </taskdef>
+
+        <ivy:settings file="../ivysettings.xml" />
+        <ivy:retrieve file="../ivy.xml" pattern="${retrieve.location}/[conf]/[artifact](-[classifier]).[ext]" />
+    </target>
+
+</project>

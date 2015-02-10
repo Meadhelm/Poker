@@ -1,0 +1,14 @@
+<!DOCTYPE project>
+<project default="tests" basedir=".">
+
+    <property file="global.properties" />
+
+    <target name="-echo">
+        <echo>Running automated tests using these parameters:</echo>
+    </target>
+
+    <target name="tests" depends="-echo">
+        <echo>Tests pending...</echo>
+    </target>
+
+</project>

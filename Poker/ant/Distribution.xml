@@ -1,0 +1,14 @@
+<!DOCTYPE project>
+<project default="distribution" basedir=".">
+
+    <property file="global.properties" />
+
+    <target name="-echo">
+        <echo>Preparing the build artifact for distribution using these parameters:</echo>
+    </target>
+
+    <target name="distribution" depends="-echo">
+        <echo>Distribution pending...</echo>
+    </target>
+
+</project>
