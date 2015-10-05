@@ -2,7 +2,6 @@ package com.nogo.poker.user.repository;
 
 import static java.util.Collections.unmodifiableCollection;
 
-import com.nogo.poker.user.dao.ResourceDao;
 import com.nogo.poker.user.dao.UserDao;
 import com.nogo.poker.user.dao.entity.UserEntity;
 import com.nogo.poker.user.domain.User;
@@ -18,10 +17,7 @@ import java.util.Collection;
 public class UserRepository {
 
   @Autowired
-  private ResourceDao dao;
-
-  @Autowired
-  private UserDao userDao;
+  private UserDao dao;
 
   /**
    * Creates a new user resource.
@@ -36,27 +32,51 @@ public class UserRepository {
     return entity.getId();
   }
 
+  /**
+   * Updates an existing user resource.
+   *
+   * @param existingUser The user to update.
+   * @param newUser The new user to persist.
+   * @return The resource id.
+   */
+  @Transactional(transactionManager = "databaseTransactionManager")
+  public String updateUser(final User existingUser, final User newUser) {
+    final UserEntity oldEntity = existingUser.toEntity();
+    final UserEntity newEntity = newUser.toEntity();
+    oldEntity.getTrackable().setEndDate(newUser.getEffectiveDate());
+    dao.update(oldEntity);
+    dao.save(newEntity);
+    return newEntity.getId();
+  }
+
   @Transactional(transactionManager = "databaseTransactionManager")
   public User getUser(final String id) {
-    return userDao.get(id).toDomain();
+    return dao.findById(id).toDomain();
+  }
+  /**
+   * Returns user records matching input parameters.
+   *
+   * @param example the example object
+   * @return a collection of user records
+   */
+  @Transactional(transactionManager = "databaseTransactionManager")
+  public Collection<User> findByExample(final User example) {
+    final Collection<User> users = new ArrayList<User>();
+    for (final UserEntity userEntity : dao.findByExample(example.toEntity())) {
+      users.add(userEntity.toDomain());
+    }
+    return unmodifiableCollection(users);
   }
 
   /**
    * Returns user records matching input parameters.
    *
-   * @param firstName the first name to match on
+   * @param example the example object
    * @return a collection of user records
    */
   @Transactional(transactionManager = "databaseTransactionManager")
-  public Collection<User> findByExample(final String firstName) {
-    final UserEntity example = new UserEntity();
-    example.setFirstName(firstName);
-
-    final Collection<User> users = new ArrayList<>();
-    for (final UserEntity entity : dao.findByExample(example)) {
-      users.add(entity.toDomain());
-    }
-    return unmodifiableCollection(users);
+  public User findById(final String id) {
+    return dao.findById(id).toDomain();
   }
 
 }

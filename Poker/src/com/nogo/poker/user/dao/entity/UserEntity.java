@@ -1,6 +1,6 @@
 package com.nogo.poker.user.dao.entity;
 
-import com.nogo.poker.dao.entity.TrackableEntity;
+import com.nogo.poker.dao.entity.ResourceEntity;
 import com.nogo.poker.user.domain.User;
 
 import javax.persistence.Column;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 @PrimaryKeyJoinColumn(name = "id")
-public class UserEntity extends TrackableEntity {
+public class UserEntity extends ResourceEntity {
 
   public UserEntity() {
     super();
@@ -23,7 +23,7 @@ public class UserEntity extends TrackableEntity {
    * @param user The user object to source field data from.
    */
   public UserEntity(final User user) {
-    super(user);
+    super(user, user);
     if (user != null) {
       this.firstName = user.getFirstName();
       this.lastName = user.getLastName();
@@ -69,11 +69,12 @@ public class UserEntity extends TrackableEntity {
    *
    * @return User
    */
+  @Override
   public User toDomain() {
     return new User.Builder().withCreatedDate(getCreatedTimestamp())
         .withModifiedDate(getModifiedTimestamp()).withEmail(emailAddress).withFirstName(firstName)
-        .withLastName(lastName).withId(getId()).withEffectiveDate(getEffectiveDate())
-        .withEndDate(getEndDate()).build();
+        .withLastName(lastName).withId(getId()).withEffectiveDate(getTrackable().getEffectiveDate())
+        .withEndDate(getTrackable().getEndDate()).build();
   }
 
 }

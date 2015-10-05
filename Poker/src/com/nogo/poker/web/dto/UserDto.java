@@ -67,7 +67,7 @@ public class UserDto extends TrackableDto {
 
   public User toDomain() {
     return new User.Builder().withFirstName(firstName).withLastName(lastName).withEmail(email)
-        .withEffectiveDate(getEffectiveDate()).withEndDate(getEndDate()).build();
+        .withEffectiveDate(getEffectiveDate()).withEndDate(getEndDate()).withId(getId()).build();
   }
 
   public UserDto() {

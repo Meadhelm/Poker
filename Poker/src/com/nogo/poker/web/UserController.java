@@ -37,10 +37,17 @@ public class UserController {
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public String createUser(final RequestContext requestContext,
-      @Valid @RequestBody final UserDto userDto) {
-    final User user = userDto.toDomain();
-    return userService.createUser(user);
+  public String createUser(final RequestContext reqCtx, @Valid @RequestBody final UserDto userDto) {
+    return userService.createUser(userDto.toDomain());
+  }
+
+  @Endpoint(name = "EXTEND.USER")
+  @RequestMapping(value = "/v1/user/{id}", method = RequestMethod.POST,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseBody
+  public String extendUser(final RequestContext reqCtx, @Valid @RequestBody final UserDto userDto) {
+    return userService.extendUser(userDto.toDomain());
   }
 
   /**
@@ -74,7 +81,8 @@ public class UserController {
   @ResponseBody
   public List<UserDto> findByExample(final RequestContext requestContext,
       @RequestParam("firstName") final String firstName) {
-    final Collection<User> users = userService.findByExample(firstName);
+    final User example = new User.Builder().withFirstName(firstName).build();
+    final Collection<User> users = userService.findByExample(example);
 
     final List<UserDto> userDtos = new ArrayList<>();
     for (final User user : users) {

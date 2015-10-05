@@ -1,19 +1,16 @@
 package com.nogo.poker.user.domain;
 
-import static org.apache.commons.lang3.StringUtils.join;
-
 import com.nogo.poker.domain.Trackable;
 import com.nogo.poker.user.dao.entity.UserEntity;
 import com.nogo.poker.web.dto.UserDto;
 
 import org.hibernate.validator.constraints.Email;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.constraints.Size;
 
 public class User extends Trackable {
+
+  public static final String TYPE = "user";
 
   /**
    * Constructs the user domain object.
@@ -48,19 +45,16 @@ public class User extends Trackable {
     return email;
   }
 
-  @Override
-  public String toString() {
-    final List<String> print = new ArrayList<>();
-    print.add(super.toString());
-    print.add("firstName: " + firstName);
-    print.add("lastName: " + lastName);
-    return join(print, ", ");
+  public String getType() {
+    return TYPE;
   }
 
+  @Override
   public UserDto toDto() {
     return new UserDto(this);
   }
 
+  @Override
   public UserEntity toEntity() {
     return new UserEntity(this);
   }

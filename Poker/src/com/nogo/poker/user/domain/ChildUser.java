@@ -1,14 +1,11 @@
 package com.nogo.poker.user.domain;
 
-import static org.apache.commons.lang3.StringUtils.join;
-
 import com.nogo.poker.user.dao.entity.ChildUserEntity;
 import com.nogo.poker.web.dto.ChildUserDto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ChildUser extends User {
+
+  public static final String TYPE = "child";
 
   public ChildUser(final AbstractBuilder<?> builder) {
     super(builder);
@@ -22,11 +19,8 @@ public class ChildUser extends User {
   }
 
   @Override
-  public String toString() {
-    final List<String> print = new ArrayList<>();
-    print.add(super.toString());
-    print.add("flying: " + flying);
-    return join(print, ", ");
+  public String getType() {
+    return TYPE;
   }
 
   @Override
