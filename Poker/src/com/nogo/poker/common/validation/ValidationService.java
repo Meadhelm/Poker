@@ -1,5 +1,8 @@
 package com.nogo.poker.common.validation;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -8,9 +11,6 @@ import javax.annotation.PostConstruct;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ValidationService {
@@ -22,8 +22,7 @@ public class ValidationService {
   }
 
   public String validate(final Object obect) {
-    final Set<ConstraintViolation<Object>> violations = factory.getValidator()
-        .validate(obect);
+    final Set<ConstraintViolation<Object>> violations = factory.getValidator().validate(obect);
     if (violations.size() == 0) {
       return null;
     }

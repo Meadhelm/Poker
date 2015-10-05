@@ -33,7 +33,7 @@ public class ChildUser extends User {
     }
   }
 
-  static abstract class AbstractBuilder<T> extends User.AbstractBuilder<T> {
+  abstract static class AbstractBuilder<T> extends User.AbstractBuilder<T> {
     protected String flying;
 
     public T isFlying(final String flying) {

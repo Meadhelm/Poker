@@ -1,8 +1,8 @@
 package com.nogo.poker.user.repo;
 
-import org.springframework.stereotype.Repository;
-
 import com.nogo.poker.user.domain.User;
+
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserRepository {

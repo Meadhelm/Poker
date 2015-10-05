@@ -22,7 +22,7 @@ public class GrandChildUser extends ChildUser {
     rank = builder.rank;
   }
 
-  public static Builder Builder() {
+  public static Builder builder() {
     return new Builder();
   }
 
@@ -37,7 +37,7 @@ public class GrandChildUser extends ChildUser {
     }
   }
 
-  static abstract class AbstractBuilder<T> extends ChildUser.AbstractBuilder<T> {
+  abstract static class AbstractBuilder<T> extends ChildUser.AbstractBuilder<T> {
     protected String rank;
 
     public T withRank(final String rank) {

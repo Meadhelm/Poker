@@ -10,8 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.nogo.poker.user.domain.User;
+import com.nogo.poker.user.domain.UserService;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -26,8 +26,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nogo.poker.user.domain.User;
-import com.nogo.poker.user.domain.UserService;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserControllerTests {
   private static final DateTime DATE_TIME = DateTime.now();
@@ -41,12 +41,15 @@ public class UserControllerTests {
 
   private MockMvc mockMvc;
 
+  /**
+   * Initialization of context needed to test the UserController endpoints.
+   *
+   */
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
 
-    mockMvc = MockMvcBuilders.standaloneSetup(userController)
-        .build();
+    mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
   }
 
   @Test
@@ -63,13 +66,12 @@ public class UserControllerTests {
     final String requestJson = StringUtils.join(request, "");
 
     // test, verify
-    final MvcResult result = this.mockMvc.perform(post("/v1/user").content(requestJson)
-        .contentType(MediaType.parseMediaType("application/json;charset=UTF-8")))
-        .andExpect(status().isCreated())
-        .andReturn();
+    final MvcResult result = this.mockMvc
+        .perform(post("/v1/user").content(requestJson)
+            .contentType(MediaType.parseMediaType("application/json;charset=UTF-8")))
+        .andExpect(status().isCreated()).andReturn();
 
-    assertThat(result.getResponse()
-        .getContentAsString()).isEqualTo("1");
+    assertThat(result.getResponse().getContentAsString()).isEqualTo("1");
   }
 
   @Test
@@ -84,8 +86,9 @@ public class UserControllerTests {
     when(mockUserService.retrieveUser(anyString())).thenReturn(mockUser);
 
     // test, verify
-    this.mockMvc.perform(
-        get("/v1/user/1").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+    this.mockMvc
+        .perform(
+            get("/v1/user/1").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=UTF-8"))
         .andExpect(jsonPath("$.name").value("Chad"))

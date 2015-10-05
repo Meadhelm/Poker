@@ -2,7 +2,7 @@
     <wb-module deploy-name="Poker">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/Configuration"/>
-        <wb-resource deploy-path="/" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <property name="context-root" value="Poker"/>
         <property name="java-output-path" value="/Poker/build/classes"/>
     </wb-module>

@@ -1,7 +1,5 @@
 package com.nogo.api.annotation;
 
-import java.lang.reflect.Method;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
@@ -9,6 +7,8 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+
+import java.lang.reflect.Method;
 
 @Aspect
 public class LogDebugInterceptor {
@@ -20,8 +20,7 @@ public class LogDebugInterceptor {
       log.debug(this.getMethod(jp));
       for (final Object o : jp.getArgs()) {
         if (o != null) {
-          log.debug("PARAMETER " + o.getClass()
-              .getSimpleName());
+          log.debug("PARAMETER " + o.getClass().getSimpleName());
           log.debug(o.toString());
         }
       }
@@ -55,11 +54,8 @@ public class LogDebugInterceptor {
     Method invoked = null;
     try {
       final MethodSignature met = (MethodSignature) jp.getSignature();
-      invoked = jp.getSourceLocation()
-          .getWithinType()
-          .getMethod(met.getMethod()
-              .getName(), met.getMethod()
-              .getParameterTypes());
+      invoked = jp.getSourceLocation().getWithinType().getMethod(met.getMethod().getName(),
+          met.getMethod().getParameterTypes());
     } finally {
       return invoked;
     }

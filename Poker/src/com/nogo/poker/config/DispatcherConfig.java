@@ -1,6 +1,6 @@
 package com.nogo.poker.config;
 
-import java.util.List;
+import com.nogo.poker.web.RequestContextResolver;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.nogo.poker.web.RequestContextResolver;
+import java.util.List;
 
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.nogo"})
@@ -26,12 +26,10 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter {
 
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/css/**")
-        .addResourceLocations("/resources/css/")
-    .setCachePeriod(31556926);
-    registry.addResourceHandler("/js/**")
-        .addResourceLocations("/resources/js/")
-    .setCachePeriod(31556926);
+    registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/")
+        .setCachePeriod(31556926);
+    registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/")
+        .setCachePeriod(31556926);
   }
 
   @Override

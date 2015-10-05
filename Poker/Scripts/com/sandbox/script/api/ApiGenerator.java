@@ -1,5 +1,14 @@
 package com.sandbox.script.api;
 
+import com.google.gson.Gson;
+
+import com.nogo.api.annotation.Document;
+import com.nogo.api.annotation.Endpoint;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -11,18 +20,17 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import com.google.gson.Gson;
-import com.nogo.api.annotation.Document;
-import com.nogo.api.annotation.Endpoint;
-
 public class ApiGenerator {
 
-  public static void main(final String[] args) throws FileNotFoundException,
-  UnsupportedEncodingException {
+  /**
+   * Generates JSON for each endpoint identified in spring project.
+   *
+   * @param args not required
+   * @throws FileNotFoundException no comment
+   * @throws UnsupportedEncodingException no comment
+   */
+  public static void main(final String[] args)
+      throws FileNotFoundException, UnsupportedEncodingException {
     System.out.println("\nGenerating API\n");
 
     final String location = args[0];
@@ -59,9 +67,8 @@ public class ApiGenerator {
 
     final ResponseStatus responseStatus = method.getAnnotation(ResponseStatus.class);
     if (responseStatus != null) {
-      endpoint.setResponseStatus(String.format("%d %s", responseStatus.value()
-          .value(), responseStatus.value()
-          .getReasonPhrase()));
+      endpoint.setResponseStatus(String.format("%d %s", responseStatus.value().value(),
+          responseStatus.value().getReasonPhrase()));
     }
 
     final Endpoint apiMethod = method.getAnnotation(Endpoint.class);

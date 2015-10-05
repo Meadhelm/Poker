@@ -1,13 +1,13 @@
 package com.nogo.poker.user.domain;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.Email;
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.Size;
-
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.constraints.Email;
-import org.joda.time.DateTime;
 
 public class User {
   @Size(min = 0, max = 64)
@@ -67,7 +67,7 @@ public class User {
     }
   }
 
-  static abstract class AbstractBuilder<T> {
+  abstract static class AbstractBuilder<T> {
     private String name;
     private String email;
     private DateTime createdDate;
