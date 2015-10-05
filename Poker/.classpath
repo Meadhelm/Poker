@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="EndpointTests"/>
 	<classpathentry kind="src" path="Configuration"/>
 	<classpathentry kind="src" path="Scripts"/>
+	<classpathentry kind="src" path="UnitTests"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=Poker&amp;ivyXmlPath=ivy.xml&amp;confs=local&amp;ivySettingsPath=ivysettings.xml&amp;loadSettingsOnDemand=false&amp;ivyUserDir=&amp;propertyFiles=&amp;acceptedTypes=jar%2Cbundle%2Cejb%2Cmaven-plugin&amp;alphaOrder=false&amp;resolveInWorkspace=true&amp;transitiveResolve=true&amp;readOSGiMetadata=false&amp;retrievedClasspath=false"/>
 	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=Poker&amp;ivyXmlPath=ivy.xml&amp;confs=master&amp;ivySettingsPath=ivysettings.xml&amp;loadSettingsOnDemand=false&amp;ivyUserDir=&amp;propertyFiles=&amp;acceptedTypes=jar%2Cbundle%2Cejb%2Cmaven-plugin&amp;alphaOrder=false&amp;resolveInWorkspace=true&amp;transitiveResolve=true&amp;readOSGiMetadata=false&amp;retrievedClasspath=false">
 		<attributes>
