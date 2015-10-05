@@ -2,6 +2,9 @@ package com.nogo.poker.user.domain;
 
 import static org.apache.commons.lang3.StringUtils.join;
 
+import com.nogo.poker.user.dao.entity.ChildUserEntity;
+import com.nogo.poker.web.dto.ChildUserDto;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +15,9 @@ public class ChildUser extends User {
     this.flying = builder.flying;
   }
 
-  private final String flying;
+  private final boolean flying;
 
-  public String isFlying() {
+  public boolean isFlying() {
     return flying;
   }
 
@@ -24,6 +27,16 @@ public class ChildUser extends User {
     print.add(super.toString());
     print.add("flying: " + flying);
     return join(print, ", ");
+  }
+
+  @Override
+  public ChildUserDto toDto() {
+    return new ChildUserDto(this);
+  }
+
+  @Override
+  public ChildUserEntity toEntity() {
+    return new ChildUserEntity(this);
   }
 
   public static class Builder extends AbstractBuilder<Builder> {
@@ -37,21 +50,26 @@ public class ChildUser extends User {
     }
   }
 
-  abstract static class AbstractBuilder<T> extends User.AbstractBuilder<T> {
-    protected String flying;
+  public abstract static class AbstractBuilder<T> extends User.AbstractBuilder<T> {
+    protected boolean flying;
 
-    public T isFlying(final String flying) {
-      this.flying = flying;
+    /**
+     * Copies all values from the user domain object into the user builder.
+     *
+     * @param user domain object
+     * @return builder object
+     */
+    public T withValues(final ChildUser user) {
+      super.withValues(user);
+      if (user instanceof ChildUser) {
+        final ChildUser bird = user;
+        this.flying = bird.flying;
+      }
       return self();
     }
 
-    @Override
-    public T withValues(final User animal) {
-      super.withValues(animal);
-      if (animal instanceof ChildUser) {
-        final ChildUser bird = (ChildUser) animal;
-        this.flying = bird.flying;
-      }
+    public T isFlying(final boolean flying) {
+      this.flying = flying;
       return self();
     }
   }

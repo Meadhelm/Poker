@@ -1,11 +1,20 @@
 package com.nogo.poker.web.dto;
 
-import com.nogo.poker.domain.IDomainObjectAware;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
 import com.nogo.poker.user.domain.User;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserDto extends ResourceDto implements IDomainObjectAware<User> {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "type")
+@JsonSubTypes({@Type(value = ChildUserDto.class, name = ChildUserDto.TYPE),
+    @Type(value = UserDto.class, name = UserDto.TYPE)})
+public class UserDto extends TrackableDto {
+
+  public static final String TYPE = "user";
 
   @NotEmpty
   private String firstName;
@@ -13,6 +22,9 @@ public class UserDto extends ResourceDto implements IDomainObjectAware<User> {
   private String lastName;
   @NotEmpty
   private String email;
+
+  @SuppressWarnings("unused")
+  private String type;
 
   public String getFirstName() {
     return firstName;
@@ -38,10 +50,24 @@ public class UserDto extends ResourceDto implements IDomainObjectAware<User> {
     this.email = email;
   }
 
-  @Override
-  public User toDomainObject() {
+  public String getType() {
+    return TYPE;
+  }
+
+  /**
+   * Sets the type to expected TYPE, otherwise UNKOWN.
+   *
+   * @param type the input type
+   */
+  public void setType(final String type) {
+    if (TYPE.equals(type)) {
+      this.type = TYPE;
+    }
+  }
+
+  public User toDomain() {
     return new User.Builder().withFirstName(firstName).withLastName(lastName).withEmail(email)
-        .build();
+        .withEffectiveDate(getEffectiveDate()).withEndDate(getEndDate()).build();
   }
 
   public UserDto() {
@@ -59,6 +85,11 @@ public class UserDto extends ResourceDto implements IDomainObjectAware<User> {
       this.firstName = user.getFirstName();
       this.lastName = user.getLastName();
       this.email = user.getEmail();
+      this.setEffectiveDate(user.getEffectiveDate());
+      this.setEndDate(user.getEndDate());
+      this.setId(user.getId());
+      this.setCreatedDate(user.getCreatedDate());
+      this.setModifiedDate(user.getModifiedDate());
     }
   }
 }

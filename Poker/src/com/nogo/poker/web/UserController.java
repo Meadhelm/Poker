@@ -15,8 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -34,7 +39,7 @@ public class UserController {
   @ResponseBody
   public String createUser(final RequestContext requestContext,
       @Valid @RequestBody final UserDto userDto) {
-    final User user = userDto.toDomainObject();
+    final User user = userDto.toDomain();
     return userService.createUser(user);
   }
 
@@ -52,7 +57,29 @@ public class UserController {
   @ResponseBody
   public UserDto retrieve(final RequestContext requestContext,
       @PathVariable("id") final String id) {
-    final User user = userService.retrieveUser(id);
-    return new UserDto(user);
+    return userService.retrieveUser(id).toDto();
+  }
+
+  /**
+   * Retrieves a user resource by GUID.
+   *
+   * @param requestContext The context container for the request.
+   * @param firstName The GUID of the user resource.
+   * @return The hydrated USER resource object.
+   */
+  @Endpoint(name = "FIND.USERS")
+  @RequestMapping(value = "/v1/user", method = RequestMethod.GET,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public List<UserDto> findByExample(final RequestContext requestContext,
+      @RequestParam("firstName") final String firstName) {
+    final Collection<User> users = userService.findByExample(firstName);
+
+    final List<UserDto> userDtos = new ArrayList<>();
+    for (final User user : users) {
+      userDtos.add(user.toDto());
+    }
+    return userDtos;
   }
 }

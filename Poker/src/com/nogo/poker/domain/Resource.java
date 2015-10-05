@@ -1,20 +1,18 @@
 package com.nogo.poker.domain;
 
-import static org.apache.commons.lang3.StringUtils.join;
+import com.nogo.poker.dao.entity.ResourceEntity;
+import com.nogo.poker.web.dto.ResourceDto;
 
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class Base {
+public abstract class Resource {
 
   /**
    * Constructs the base domain object.
    *
    * @param builder The builder containing fields to set
    */
-  public Base(final AbstractBuilder<?> builder) {
+  public Resource(final AbstractBuilder<?> builder) {
     id = builder.id;
     createdDate = builder.createdDate;
     modifiedDate = builder.modifiedDate;
@@ -36,14 +34,9 @@ public abstract class Base {
     return modifiedDate;
   }
 
-  @Override
-  public String toString() {
-    final List<String> print = new ArrayList<>();
-    print.add("id: " + id);
-    print.add("createdDate: " + createdDate);
-    print.add("modifiedDate: " + modifiedDate);
-    return join(print, ", ");
-  }
+  public abstract ResourceEntity toEntity();
+
+  public abstract ResourceDto toDto();
 
   public abstract static class AbstractBuilder<T> {
     private String id;
@@ -58,7 +51,7 @@ public abstract class Base {
      * @param base domain object
      * @return builder object
      */
-    public T withValues(final Base base) {
+    public T withValues(final Resource base) {
       this.id = base.getId();
       this.createdDate = base.getCreatedDate();
       this.modifiedDate = base.getModifiedDate();

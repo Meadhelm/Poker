@@ -1,12 +1,25 @@
 package com.nogo.poker.web.dto;
 
-import com.nogo.poker.domain.Base;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import com.nogo.poker.configuration.JsonJodaDateTimeSerializer;
+import com.nogo.poker.domain.Resource;
+
+import org.joda.time.DateTime;
 
 public class ResourceDto {
 
+  @JsonProperty
   private String id;
-  private String createdDate;
-  private String modifiedDate;
+
+  @JsonSerialize(using = JsonJodaDateTimeSerializer.class)
+  @JsonProperty
+  private DateTime createdDate;
+
+  @JsonSerialize(using = JsonJodaDateTimeSerializer.class)
+  @JsonProperty
+  private DateTime modifiedDate;
 
   public String getId() {
     return id;
@@ -16,19 +29,19 @@ public class ResourceDto {
     this.id = id;
   }
 
-  public String getCreatedDate() {
+  public DateTime getCreatedDate() {
     return createdDate;
   }
 
-  public void setCreatedDate(final String createdDate) {
+  public void setCreatedDate(final DateTime createdDate) {
     this.createdDate = createdDate;
   }
 
-  public String getModifiedDate() {
+  public DateTime getModifiedDate() {
     return modifiedDate;
   }
 
-  public void setModifiedDate(final String modifiedDate) {
+  public void setModifiedDate(final DateTime modifiedDate) {
     this.modifiedDate = modifiedDate;
   }
 
@@ -39,13 +52,13 @@ public class ResourceDto {
   /**
    * Constructs the base resource dto object.
    *
-   * @param base The base object containing fields to set
+   * @param resource The base object containing fields to set
    */
-  public ResourceDto(final Base base) {
-    if (base != null) {
-      this.id = base.getId();
-      this.createdDate = base.getCreatedDate() == null ? null : base.getCreatedDate().toString();
-      this.modifiedDate = base.getModifiedDate() == null ? null : base.getModifiedDate().toString();
+  public ResourceDto(final Resource resource) {
+    if (resource != null) {
+      this.id = resource.getId();
+      this.createdDate = resource.getCreatedDate();
+      this.modifiedDate = resource.getModifiedDate();
     }
   }
 }

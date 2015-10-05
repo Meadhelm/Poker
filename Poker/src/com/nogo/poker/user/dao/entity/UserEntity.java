@@ -1,16 +1,17 @@
 package com.nogo.poker.user.dao.entity;
 
-import com.nogo.poker.dao.entity.BaseEntity;
-import com.nogo.poker.domain.IDomainObjectAware;
+import com.nogo.poker.dao.entity.TrackableEntity;
 import com.nogo.poker.user.domain.User;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class UserEntity extends BaseEntity implements IDomainObjectAware<User> {
+@PrimaryKeyJoinColumn(name = "id")
+public class UserEntity extends TrackableEntity {
 
   public UserEntity() {
     super();
@@ -22,10 +23,12 @@ public class UserEntity extends BaseEntity implements IDomainObjectAware<User> {
    * @param user The user object to source field data from.
    */
   public UserEntity(final User user) {
-    super();
-    this.firstName = user.getFirstName();
-    this.lastName = user.getLastName();
-    this.emailAddress = user.getEmail();
+    super(user);
+    if (user != null) {
+      this.firstName = user.getFirstName();
+      this.lastName = user.getLastName();
+      this.emailAddress = user.getEmail();
+    }
   }
 
   @Column(name = "first_name", nullable = false)
@@ -61,11 +64,16 @@ public class UserEntity extends BaseEntity implements IDomainObjectAware<User> {
     this.emailAddress = emailAddress;
   }
 
-  @Override
-  public User toDomainObject() {
+  /**
+   * Returns an immutable domain object representation of this dto.
+   *
+   * @return User
+   */
+  public User toDomain() {
     return new User.Builder().withCreatedDate(getCreatedTimestamp())
         .withModifiedDate(getModifiedTimestamp()).withEmail(emailAddress).withFirstName(firstName)
-        .withLastName(lastName).withId(getId()).build();
+        .withLastName(lastName).withId(getId()).withEffectiveDate(getEffectiveDate())
+        .withEndDate(getEndDate()).build();
   }
 
 }

@@ -2,7 +2,9 @@ package com.nogo.poker.user.domain;
 
 import static org.apache.commons.lang3.StringUtils.join;
 
-import com.nogo.poker.domain.Base;
+import com.nogo.poker.domain.Trackable;
+import com.nogo.poker.user.dao.entity.UserEntity;
+import com.nogo.poker.web.dto.UserDto;
 
 import org.hibernate.validator.constraints.Email;
 
@@ -11,7 +13,7 @@ import java.util.List;
 
 import javax.validation.constraints.Size;
 
-public class User extends Base {
+public class User extends Trackable {
 
   /**
    * Constructs the user domain object.
@@ -55,6 +57,14 @@ public class User extends Base {
     return join(print, ", ");
   }
 
+  public UserDto toDto() {
+    return new UserDto(this);
+  }
+
+  public UserEntity toEntity() {
+    return new UserEntity(this);
+  }
+
   public static class Builder extends AbstractBuilder<Builder> {
     @Override
     public Builder self() {
@@ -66,12 +76,19 @@ public class User extends Base {
     }
   }
 
-  abstract static class AbstractBuilder<T> extends Base.AbstractBuilder<T> {
+  public abstract static class AbstractBuilder<T> extends Trackable.AbstractBuilder<T> {
     private String firstName;
     private String lastName;
     private String email;
 
+    /**
+     * Copies all values from the user domain object into the user builder.
+     *
+     * @param user domain object
+     * @return builder object
+     */
     public T withValues(final User user) {
+      super.withValues(user);
       this.firstName = user.getFirstName();
       this.lastName = user.getLastName();
       this.email = user.getEmail();

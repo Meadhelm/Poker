@@ -1,5 +1,6 @@
 package com.nogo.poker.user.dao;
 
+import com.nogo.poker.dao.entity.ResourceEntity;
 import com.nogo.poker.user.dao.entity.UserEntity;
 
 import org.hibernate.SessionFactory;
@@ -13,7 +14,7 @@ public class UserDao {
   @Autowired
   private SessionFactory sessionFactory;
 
-  public void save(final UserEntity user) {
+  public void save(final ResourceEntity user) {
     sessionFactory.getCurrentSession().save(user);
   }
 

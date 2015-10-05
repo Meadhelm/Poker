@@ -1,7 +1,8 @@
 package com.nogo.poker.dao.entity;
 
-import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 import static org.joda.time.DateTimeZone.UTC;
+
+import com.nogo.poker.domain.Resource;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
@@ -15,10 +16,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 @Entity
-@Inheritance(strategy = TABLE_PER_CLASS)
-public abstract class BaseEntity {
+@Table(name = "resource")
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class ResourceEntity {
+
+  public ResourceEntity() {
+
+  }
 
   @Id
   @GeneratedValue(generator = "uuid")
@@ -56,4 +64,6 @@ public abstract class BaseEntity {
   public DateTime getModifiedTimestamp() {
     return new DateTime(modifiedTimestamp, UTC);
   }
+
+  public abstract Resource toDomain();
 }
