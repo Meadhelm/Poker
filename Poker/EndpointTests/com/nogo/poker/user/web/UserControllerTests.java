@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.nogo.poker.user.domain.User;
 import com.nogo.poker.user.service.UserService;
+import com.nogo.poker.web.UserController;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -59,7 +60,8 @@ public class UserControllerTests {
 
     final List<String> request = new ArrayList<>();
     request.add("{");
-    request.add("\"name\" : \"Chad\",");
+    request.add("\"firstName\" : \"Chad\",");
+    request.add("\"lastName\" : \"Nogosek\",");
     request.add("\"email\" : \"chadnogosek@poker.com\"");
     request.add("}");
 
@@ -78,6 +80,7 @@ public class UserControllerTests {
   public void getUser() throws Exception {
     // setup
     final User mockUser = Mockito.mock(User.class);
+    when(mockUser.getId()).thenReturn(("1"));
     when(mockUser.getFirstName()).thenReturn("Chad");
     when(mockUser.getLastName()).thenReturn("Nogosek");
     when(mockUser.getEmail()).thenReturn("chadnogosek@poker.com");
@@ -92,7 +95,9 @@ public class UserControllerTests {
             get("/v1/user/1").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=UTF-8"))
+        .andExpect(jsonPath("$.id").value("1"))
         .andExpect(jsonPath("$.firstName").value("Chad"))
+        .andExpect(jsonPath("$.lastName").value("Nogosek"))
         .andExpect(jsonPath("$.email").value("chadnogosek@poker.com"))
         .andExpect(jsonPath("$.createdDate").value(DATE_STRING))
         .andExpect(jsonPath("$.modifiedDate").value(DATE_STRING));

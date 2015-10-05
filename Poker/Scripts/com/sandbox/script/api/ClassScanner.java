@@ -17,6 +17,11 @@ public class ClassScanner {
   private final ClassPathScanningCandidateComponentProvider scanner =
       new ClassPathScanningCandidateComponentProvider(true);
 
+  /**
+   * Finds all classes in com.nogo.
+   *
+   * @return Collecion of Class<?>
+   */
   public final Collection<Class<?>> findClasses() {
     final List<Class<?>> classes = new ArrayList<Class<?>>();
 

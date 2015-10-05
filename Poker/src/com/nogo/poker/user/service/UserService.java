@@ -1,8 +1,8 @@
 package com.nogo.poker.user.service;
 
-import com.nogo.poker.common.validation.ValidationService;
 import com.nogo.poker.user.domain.User;
-import com.nogo.poker.user.repo.UserRepository;
+import com.nogo.poker.user.repository.UserRepository;
+import com.nogo.poker.validation.ValidationService;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,7 @@ public class UserService {
     if (StringUtils.isNotBlank(violations)) {
       throw new IllegalArgumentException(violations);
     }
+
     return userRepo.createUser(newUser);
   }
 

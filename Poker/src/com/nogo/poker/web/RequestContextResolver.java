@@ -1,5 +1,7 @@
 package com.nogo.poker.web;
 
+import com.nogo.poker.domain.RequestContext;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

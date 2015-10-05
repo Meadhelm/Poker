@@ -2,6 +2,8 @@ package com.nogo.poker.user.domain;
 
 import static org.apache.commons.lang3.StringUtils.join;
 
+import com.nogo.poker.domain.Base;
+
 import org.hibernate.validator.constraints.Email;
 
 import java.util.ArrayList;

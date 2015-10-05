@@ -37,6 +37,7 @@
         <dependency name="hibernate-entitymanager" org="org.hibernate" rev="5.0.2.Final"/>
         <dependency name="persistence-api" org="javax.persistence" rev="1.0"/>
         <dependency name="h2" org="com.h2database" rev="1.4.189"/>
+        <dependency name="joda-time-hibernate" org="joda-time" rev="1.4"/>
 
         <!-- AspectJ -->
         <dependency name="aopalliance" org="aopalliance" rev="1.0" />
