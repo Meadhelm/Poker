@@ -78,7 +78,8 @@ public class UserControllerTests {
   public void getUser() throws Exception {
     // setup
     final User mockUser = Mockito.mock(User.class);
-    when(mockUser.getName()).thenReturn("Chad");
+    when(mockUser.getFirstName()).thenReturn("Chad");
+    when(mockUser.getLastName()).thenReturn("Nogosek");
     when(mockUser.getEmail()).thenReturn("chadnogosek@poker.com");
     when(mockUser.getCreatedDate()).thenReturn(DATE_TIME);
     when(mockUser.getModifiedDate()).thenReturn(DATE_TIME);
@@ -91,7 +92,7 @@ public class UserControllerTests {
             get("/v1/user/1").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=UTF-8"))
-        .andExpect(jsonPath("$.name").value("Chad"))
+        .andExpect(jsonPath("$.firstName").value("Chad"))
         .andExpect(jsonPath("$.email").value("chadnogosek@poker.com"))
         .andExpect(jsonPath("$.createdDate").value(DATE_STRING))
         .andExpect(jsonPath("$.modifiedDate").value(DATE_STRING));

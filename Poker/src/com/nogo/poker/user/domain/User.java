@@ -1,59 +1,56 @@
 package com.nogo.poker.user.domain;
 
-import org.apache.commons.lang3.StringUtils;
+import static org.apache.commons.lang3.StringUtils.join;
+
 import org.hibernate.validator.constraints.Email;
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.Size;
 
-public class User {
+public class User extends Base {
+
+  /**
+   * Constructs the user domain object.
+   *
+   * @param builder The builder containing fields to set
+   */
+  public User(final AbstractBuilder<?> builder) {
+    super(builder);
+    firstName = builder.firstName;
+    lastName = builder.lastName;
+    email = builder.email;
+  }
+
   @Size(min = 0, max = 64)
-  private String name;
+  private final String firstName;
+
+  @Size(min = 1, max = 64)
+  private final String lastName;
 
   @Email
-  private String email;
+  private final String email;
 
-  private DateTime createdDate;
+  public String getFirstName() {
+    return firstName;
+  }
 
-  private DateTime modifiedDate;
-
-  public String getName() {
-    return name;
+  public String getLastName() {
+    return lastName;
   }
 
   public String getEmail() {
     return email;
   }
 
-  public DateTime getCreatedDate() {
-    return createdDate;
-  }
-
-  public DateTime getModifiedDate() {
-    return modifiedDate;
-  }
-
   @Override
   public String toString() {
     final List<String> print = new ArrayList<>();
-    print.add("name: " + name);
-    print.add("createdDate: " + createdDate);
-    print.add("modifiedDate: " + modifiedDate);
-    return StringUtils.join(print, ", ");
-  }
-
-  public User() {
-
-  }
-
-  public User(final AbstractBuilder<Builder> builder) {
-    name = builder.name;
-    email = builder.email;
-    createdDate = builder.createdDate;
-    modifiedDate = builder.modifiedDate;
+    print.add(super.toString());
+    print.add("firstName: " + firstName);
+    print.add("lastName: " + lastName);
+    return join(print, ", ");
   }
 
   public static class Builder extends AbstractBuilder<Builder> {
@@ -67,50 +64,30 @@ public class User {
     }
   }
 
-  abstract static class AbstractBuilder<T> {
-    private String name;
+  abstract static class AbstractBuilder<T> extends Base.AbstractBuilder<T> {
+    private String firstName;
+    private String lastName;
     private String email;
-    private DateTime createdDate;
-    private DateTime modifiedDate;
 
-    abstract T self();
-
-    public T withValues(final User userDto) {
-      this.name = userDto.getName();
+    public T withValues(final User user) {
+      this.firstName = user.getFirstName();
+      this.lastName = user.getLastName();
+      this.email = user.getEmail();
       return self();
     }
 
-    public T withName(final String name) {
-      this.name = name;
+    public T withFirstName(final String firstName) {
+      this.firstName = firstName;
+      return self();
+    }
+
+    public T withLastName(final String lastName) {
+      this.lastName = lastName;
       return self();
     }
 
     public T withEmail(final String email) {
       this.email = email;
-      return self();
-    }
-
-    public T withCreatedDate(final DateTime createdDate) {
-      this.createdDate = createdDate;
-      return self();
-    }
-
-    public T withCreatedDate(final String createdDate) {
-      if (StringUtils.isNotBlank(createdDate)) {
-        this.createdDate = DateTime.parse(createdDate);
-      }
-      return self();
-    }
-
-    public T withModifiedDate(final DateTime modifiedDate) {
-      this.modifiedDate = modifiedDate;
-      return self();
-    }
-
-    public T withModifiedDate(final String modifiedDate) {
-      if (StringUtils.isNotBlank(modifiedDate)) {
-        this.createdDate = DateTime.parse(modifiedDate);
-      }
       return self();
     }
   }

@@ -16,6 +16,12 @@ public class UserService {
   @Autowired
   private UserRepository userRepo;
 
+  /**
+   * Creates a new user
+   *
+   * @param newUser The user object to create.
+   * @return The resource identifier
+   */
   public String createUser(final User newUser) {
     final String violations = validator.validate(newUser);
     if (StringUtils.isNotBlank(violations)) {
@@ -25,6 +31,6 @@ public class UserService {
   }
 
   public User retrieveUser(final String id) {
-    return userRepo.getUser(new Long(id));
+    return userRepo.getUser(id);
   }
 }

@@ -5,21 +5,29 @@ import com.nogo.poker.user.domain.User;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserDto implements IDomainObjectAware<User> {
+public class UserDto extends ResourceDto implements IDomainObjectAware<User> {
+
   @NotEmpty
-  private String name;
+  private String firstName;
+  @NotEmpty
+  private String lastName;
   @NotEmpty
   private String email;
 
-  private String createdDate;
-  private String modifiedDate;
-
-  public String getName() {
-    return name;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setName(final String name) {
-    this.name = name;
+  public void setFirstName(final String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(final String lastName) {
+    this.lastName = lastName;
   }
 
   public String getEmail() {
@@ -30,38 +38,27 @@ public class UserDto implements IDomainObjectAware<User> {
     this.email = email;
   }
 
-  public String getCreatedDate() {
-    return createdDate;
-  }
-
-  public void setCreatedDate(final String createdDate) {
-    this.createdDate = createdDate;
-  }
-
-  public String getModifiedDate() {
-    return modifiedDate;
-  }
-
-  public void setModifiedDate(final String modifiedDate) {
-    this.modifiedDate = modifiedDate;
-  }
-
   @Override
   public User toDomainObject() {
-    return new User.Builder().withName(name).withEmail(email).withCreatedDate(createdDate)
-        .withModifiedDate(modifiedDate).build();
+    return new User.Builder().withFirstName(firstName).withLastName(lastName).withEmail(email)
+        .build();
   }
 
   public UserDto() {
 
   }
 
+  /**
+   * Constructs the user dto object.
+   *
+   * @param user The user object containing fields to set
+   */
   public UserDto(final User user) {
+    super(user);
     if (user != null) {
-      this.name = user.getName();
+      this.firstName = user.getFirstName();
+      this.lastName = user.getLastName();
       this.email = user.getEmail();
-      this.createdDate = user.getCreatedDate() == null ? null : user.getCreatedDate().toString();
-      this.modifiedDate = user.getModifiedDate() == null ? null : user.getModifiedDate().toString();
     }
   }
 }

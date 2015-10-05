@@ -1,7 +1,18 @@
 package com.nogo.poker.user.domain;
 
+import static org.apache.commons.lang3.StringUtils.join;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class GrandChildUser extends ChildUser {
-  private String rank;
+
+  public GrandChildUser(final AbstractBuilder<?> builder) {
+    super(builder);
+    rank = builder.rank;
+  }
+
+  private final String rank;
 
   public String getRank() {
     return rank;
@@ -9,21 +20,10 @@ public class GrandChildUser extends ChildUser {
 
   @Override
   public String toString() {
-    return rank + super.toString();
-  }
-
-  public GrandChildUser() {
-
-  }
-
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  public GrandChildUser(final AbstractBuilder<Builder> builder) {
-    super((AbstractBuilder) builder);
-    rank = builder.rank;
-  }
-
-  public static Builder builder() {
-    return new Builder();
+    final List<String> print = new ArrayList<>();
+    print.add(super.toString());
+    print.add("rank: " + rank);
+    return join(print, ", ");
   }
 
   public static class Builder extends AbstractBuilder<Builder> {

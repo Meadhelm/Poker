@@ -1,25 +1,29 @@
 package com.nogo.poker.user.domain;
 
+import static org.apache.commons.lang3.StringUtils.join;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChildUser extends User {
-  private String flying;
+
+  public ChildUser(final AbstractBuilder<?> builder) {
+    super(builder);
+    this.flying = builder.flying;
+  }
+
+  private final String flying;
 
   public String isFlying() {
     return flying;
   }
 
-  public ChildUser() {
-
-  }
-
   @Override
   public String toString() {
-    return flying + super.toString();
-  }
-
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  public ChildUser(final AbstractBuilder<Builder> builder) {
-    super((AbstractBuilder) builder);
-    this.flying = builder.flying;
+    final List<String> print = new ArrayList<>();
+    print.add(super.toString());
+    print.add("flying: " + flying);
+    return join(print, ", ");
   }
 
   public static class Builder extends AbstractBuilder<Builder> {
