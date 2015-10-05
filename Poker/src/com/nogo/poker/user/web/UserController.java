@@ -3,10 +3,9 @@ package com.nogo.poker.user.web;
 import com.nogo.api.annotation.Document;
 import com.nogo.api.annotation.Endpoint;
 import com.nogo.poker.user.domain.User;
-import com.nogo.poker.user.domain.UserService;
+import com.nogo.poker.user.service.UserService;
 import com.nogo.poker.web.RequestContext;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,22 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 @Document
 @Controller
 public class UserController {
 
-  private static final Logger LOG = Logger.getLogger(UserController.class);
-
   @Autowired
   private UserService userService;
-
-  @PostConstruct
-  public void init() {
-    LOG.info("woot");
-  }
 
   @Endpoint(name = "CREATE.USER")
   @RequestMapping(value = "/v1/user", method = RequestMethod.POST,

@@ -1,10 +1,10 @@
-package com.nogo.poker.user.domain;
+package com.nogo.poker.user.service;
 
 import com.nogo.poker.common.validation.ValidationService;
+import com.nogo.poker.user.domain.User;
 import com.nogo.poker.user.repo.UserRepository;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +25,6 @@ public class UserService {
   }
 
   public User retrieveUser(final String id) {
-    // throw new ResourceNotFoundException();
-    return new User.Builder().withName("Chad").withEmail("chadnogosek@gmail.com")
-        .withCreatedDate(DateTime.now()).withModifiedDate(DateTime.now()).build();
+    return userRepo.getUser(new Long(id));
   }
 }

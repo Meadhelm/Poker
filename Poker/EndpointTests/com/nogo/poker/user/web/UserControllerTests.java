@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nogo.poker.user.domain.User;
-import com.nogo.poker.user.domain.UserService;
+import com.nogo.poker.user.service.UserService;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
