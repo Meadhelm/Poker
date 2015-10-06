@@ -50,10 +50,6 @@ public class UserRepository {
     return newEntity.getId();
   }
 
-  @Transactional(transactionManager = "databaseTransactionManager")
-  public User getUser(final String id) {
-    return dao.findById(id).toDomain();
-  }
   /**
    * Returns user records matching input parameters.
    *
@@ -72,12 +68,16 @@ public class UserRepository {
   /**
    * Returns user records matching input parameters.
    *
-   * @param example the example object
+   * @param id the example object
    * @return a collection of user records
    */
   @Transactional(transactionManager = "databaseTransactionManager")
   public User findById(final String id) {
-    return dao.findById(id, DateTime.now()).toDomain();
+    final UserEntity userEntity = dao.findById(id, DateTime.now());
+    if (userEntity == null) {
+      return null;
+    }
+    return userEntity.toDomain();
   }
 
 }

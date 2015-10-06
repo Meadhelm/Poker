@@ -41,18 +41,6 @@ public class UserDao {
   }
 
   /**
-   * Returns a single database resource found by entity example.
-   *
-   * @param entity example
-   * @return findings
-   */
-  @SuppressWarnings("unchecked")
-  public <T extends UserEntity> T findById(final String id) {
-    return (T) sessionFactory.getCurrentSession().createCriteria(UserEntity.class)
-        .add(Restrictions.eq("id", id)).uniqueResult();
-  }
-
-  /**
    * Returns a single database resource found by id and date.
    *
    * @param id resource id

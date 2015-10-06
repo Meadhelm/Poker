@@ -8,14 +8,18 @@ import com.nogo.poker.domain.Trackable;
 
 import org.joda.time.DateTime;
 
+import javax.validation.constraints.NotNull;
+
 public class TrackableDto extends ResourceDto {
 
   @JsonSerialize(using = JsonJodaDateTimeSerializer.class)
   @JsonProperty
+  @NotNull
   private DateTime effectiveDate;
 
   @JsonSerialize(using = JsonJodaDateTimeSerializer.class)
   @JsonProperty
+  @NotNull
   private DateTime endDate;
 
   public DateTime getEffectiveDate() {

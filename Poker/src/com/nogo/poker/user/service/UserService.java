@@ -2,6 +2,7 @@ package com.nogo.poker.user.service;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import com.nogo.poker.exception.ResourceConflictException;
 import com.nogo.poker.exception.ResourceNotFoundException;
 import com.nogo.poker.user.domain.User;
 import com.nogo.poker.user.repository.UserRepository;
@@ -52,7 +53,7 @@ public class UserService {
       throw new ResourceNotFoundException();
     }
     if (existingUser.getType().equals(newUser.getType())) {
-      throw new ResourceNotFoundException();
+      throw new ResourceConflictException();
     }
     return userRepo.updateUser(existingUser, newUser);
   }

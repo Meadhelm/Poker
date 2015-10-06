@@ -3,6 +3,7 @@ package com.nogo.poker.web;
 import com.nogo.api.annotation.Document;
 import com.nogo.api.annotation.Endpoint;
 import com.nogo.poker.domain.RequestContext;
+import com.nogo.poker.exception.ResourceNotFoundException;
 import com.nogo.poker.user.domain.User;
 import com.nogo.poker.user.service.UserService;
 import com.nogo.poker.web.dto.UserDto;
@@ -65,7 +66,11 @@ public class UserController {
   @ResponseBody
   public UserDto retrieve(final RequestContext requestContext,
       @PathVariable("id") final String id) {
-    return userService.findById(id).toDto();
+    final User user = userService.findById(id);
+    if (user == null) {
+      throw new ResourceNotFoundException();
+    }
+    return user.toDto();
   }
 
   /**
