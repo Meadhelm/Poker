@@ -6,6 +6,7 @@ import com.nogo.poker.user.dao.UserDao;
 import com.nogo.poker.user.dao.entity.UserEntity;
 import com.nogo.poker.user.domain.User;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +77,7 @@ public class UserRepository {
    */
   @Transactional(transactionManager = "databaseTransactionManager")
   public User findById(final String id) {
-    return dao.findById(id).toDomain();
+    return dao.findById(id, DateTime.now()).toDomain();
   }
 
 }

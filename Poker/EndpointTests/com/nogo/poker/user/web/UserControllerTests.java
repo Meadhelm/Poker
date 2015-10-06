@@ -87,7 +87,7 @@ public class UserControllerTests {
     when(mockUser.getCreatedDate()).thenReturn(DATE_TIME);
     when(mockUser.getModifiedDate()).thenReturn(DATE_TIME);
 
-    when(mockUserService.retrieveUser(anyString())).thenReturn(mockUser);
+    when(mockUserService.findById(anyString())).thenReturn(mockUser);
 
     // test, verify
     this.mockMvc

@@ -41,13 +41,13 @@ public class UserService {
    * @param newUser user to extend
    * @return id of new user
    */
-  public String extendUser(final User newUser) {
+  public String extendUser(final String id, final User newUser) {
     final String violations = validator.validate(newUser);
     if (isNotBlank(violations)) {
       throw new IllegalArgumentException(violations);
     }
 
-    final User existingUser = findByExampleDistinct(newUser.getId());
+    final User existingUser = findById(id);
     if (existingUser == null) {
       throw new ResourceNotFoundException();
     }
@@ -57,15 +57,11 @@ public class UserService {
     return userRepo.updateUser(existingUser, newUser);
   }
 
-  public User retrieveUser(final String id) {
-    return userRepo.getUser(id);
-  }
-
   public Collection<User> findByExample(final User example) {
     return userRepo.findByExample(example);
   }
 
-  public User findByExampleDistinct(final String id) {
+  public User findById(final String id) {
     return userRepo.findById(id);
   }
 }

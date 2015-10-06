@@ -46,8 +46,9 @@ public class UserController {
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public String extendUser(final RequestContext reqCtx, @Valid @RequestBody final UserDto userDto) {
-    return userService.extendUser(userDto.toDomain());
+  public String extendUser(final RequestContext reqCtx, @Valid @RequestBody final UserDto userDto,
+      @PathVariable("id") final String id) {
+    return userService.extendUser(id, userDto.toDomain());
   }
 
   /**
@@ -64,7 +65,7 @@ public class UserController {
   @ResponseBody
   public UserDto retrieve(final RequestContext requestContext,
       @PathVariable("id") final String id) {
-    return userService.retrieveUser(id).toDto();
+    return userService.findById(id).toDto();
   }
 
   /**
