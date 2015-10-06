@@ -20,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -62,7 +61,10 @@ public class UserControllerTests {
     request.add("{");
     request.add("\"firstName\" : \"Chad\",");
     request.add("\"lastName\" : \"Nogosek\",");
-    request.add("\"email\" : \"chadnogosek@poker.com\"");
+    request.add("\"email\" : \"chadnogosek@poker.com\",");
+    request.add("\"type\" : \"user\",");
+    request.add("\"effectiveDate\" : \"3015-10-02\",");
+    request.add("\"endDate\" : \"3015-10-04\"");
     request.add("}");
 
     final String requestJson = StringUtils.join(request, "");
@@ -79,15 +81,11 @@ public class UserControllerTests {
   @Test
   public void getUser() throws Exception {
     // setup
-    final User mockUser = Mockito.mock(User.class);
-    when(mockUser.getId()).thenReturn(("1"));
-    when(mockUser.getFirstName()).thenReturn("Chad");
-    when(mockUser.getLastName()).thenReturn("Nogosek");
-    when(mockUser.getEmail()).thenReturn("chadnogosek@poker.com");
-    when(mockUser.getCreatedDate()).thenReturn(DATE_TIME);
-    when(mockUser.getModifiedDate()).thenReturn(DATE_TIME);
+    final User user = new User.Builder().withId("1").withFirstName("Chad").withLastName("Nogosek")
+        .withEmail("chadnogosek@poker.com").withCreatedDate(DATE_TIME).withModifiedDate(DATE_TIME)
+        .withEndDate(DATE_TIME).withEffectiveDate(DATE_TIME).build();
 
-    when(mockUserService.findById(anyString())).thenReturn(mockUser);
+    when(mockUserService.findById(anyString())).thenReturn(user);
 
     // test, verify
     this.mockMvc
@@ -95,11 +93,12 @@ public class UserControllerTests {
             get("/v1/user/1").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=UTF-8"))
-        .andExpect(jsonPath("$.id").value("1"))
-        .andExpect(jsonPath("$.firstName").value("Chad"))
+        .andExpect(jsonPath("$.id").value("1")).andExpect(jsonPath("$.firstName").value("Chad"))
         .andExpect(jsonPath("$.lastName").value("Nogosek"))
         .andExpect(jsonPath("$.email").value("chadnogosek@poker.com"))
         .andExpect(jsonPath("$.createdDate").value(DATE_STRING))
-        .andExpect(jsonPath("$.modifiedDate").value(DATE_STRING));
+        .andExpect(jsonPath("$.modifiedDate").value(DATE_STRING))
+        .andExpect(jsonPath("$.effectiveDate").value(DATE_STRING))
+        .andExpect(jsonPath("$.endDate").value(DATE_STRING));
   }
 }

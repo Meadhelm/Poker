@@ -9,7 +9,7 @@ import com.nogo.poker.user.domain.User;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.EXISTING_PROPERTY, property = "type")
 @JsonSubTypes({@Type(value = ChildUserDto.class, name = ChildUserDto.TYPE),
     @Type(value = UserDto.class, name = UserDto.TYPE)})
 public class UserDto extends TrackableDto {
@@ -90,6 +90,7 @@ public class UserDto extends TrackableDto {
       this.setId(user.getId());
       this.setCreatedDate(user.getCreatedDate());
       this.setModifiedDate(user.getModifiedDate());
+      this.type = user.getType();
     }
   }
 }
