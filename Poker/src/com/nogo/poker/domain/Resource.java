@@ -1,76 +1,89 @@
 package com.nogo.poker.domain;
 
-import com.nogo.poker.dao.entity.ResourceEntity;
-import com.nogo.poker.web.dto.ResourceDto;
+import static org.joda.time.DateTimeZone.UTC;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import com.nogo.poker.time.DateTimeSerializer;
+
+import org.hibernate.annotations.GenericGenerator;
 import org.joda.time.DateTime;
 
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "resource")
+@Inheritance(strategy = InheritanceType.JOINED)
+@JsonInclude(Include.NON_NULL)
+@JsonAutoDetect(fieldVisibility = Visibility.NONE)
 public abstract class Resource {
 
-  /**
-   * Constructs the base domain object.
-   *
-   * @param builder The builder containing fields to set
-   */
-  public Resource(final AbstractBuilder<?> builder) {
-    id = builder.id;
-    createdDate = builder.createdDate;
-    modifiedDate = builder.modifiedDate;
-  }
+  @Id
+  @Column(name = "id", nullable = false)
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  private String id;
 
-  private final String id;
-  private final DateTime createdDate;
-  private final DateTime modifiedDate;
+  @Column(name = "is_deleted", nullable = false)
+  private Boolean deleted = false;
 
+  @Column(name = "created_timestamp", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+      insertable = false, updatable = false)
+  private Date createdTimestamp;
+
+  @Column(name = "modified_timestamp", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+      insertable = false)
+  private Date modifiedTimestamp;
+
+  @JsonGetter
   public String getId() {
     return id;
   }
 
-  public DateTime getCreatedDate() {
-    return createdDate;
+  protected void setId(final String id) {
+    this.id = id;
   }
 
-  public DateTime getModifiedDate() {
-    return modifiedDate;
+  @JsonGetter
+  public Boolean isDeleted() {
+    return deleted;
   }
 
-  public abstract ResourceEntity toEntity();
-
-  public abstract ResourceDto toDto();
-
-  public abstract static class AbstractBuilder<T> {
-    private String id;
-    private DateTime createdDate;
-    private DateTime modifiedDate;
-
-    public abstract T self();
-
-    /**
-     * Copies all values from the base domain object into the base builder.
-     *
-     * @param base domain object
-     * @return builder object
-     */
-    public T withValues(final Resource base) {
-      this.id = base.getId();
-      this.createdDate = base.getCreatedDate();
-      this.modifiedDate = base.getModifiedDate();
-      return self();
-    }
-
-    public T withId(final String id) {
-      this.id = id;
-      return self();
-    }
-
-    public T withCreatedDate(final DateTime createdDate) {
-      this.createdDate = createdDate;
-      return self();
-    }
-
-    public T withModifiedDate(final DateTime modifiedDate) {
-      this.modifiedDate = modifiedDate;
-      return self();
-    }
+  protected void setDeleted(final Boolean deleted) {
+    this.deleted = deleted;
   }
+
+  @JsonGetter
+  @JsonSerialize(using = DateTimeSerializer.class)
+  public DateTime getCreatedTimestamp() {
+    return new DateTime(createdTimestamp, UTC);
+  }
+
+  protected void setCreatedTimestamp(final Date createdTimestamp) {
+    this.createdTimestamp = createdTimestamp;
+  }
+
+  @JsonGetter
+  @JsonSerialize(using = DateTimeSerializer.class)
+  public DateTime getModifiedTimestamp() {
+    return new DateTime(modifiedTimestamp, UTC);
+  }
+
+  protected void setModifiedTimestamp(final Date modifiedTimestamp) {
+    this.modifiedTimestamp = modifiedTimestamp;
+  }
+
 }

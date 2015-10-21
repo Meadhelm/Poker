@@ -67,8 +67,10 @@ public class ApiGenerator {
 
     final ResponseStatus responseStatus = method.getAnnotation(ResponseStatus.class);
     if (responseStatus != null) {
-      endpoint.setResponseStatus(String.format("%d %s", responseStatus.value().value(),
-          responseStatus.value().getReasonPhrase()));
+      endpoint.setResponseStatus(String.format("%d %s", responseStatus.value()
+          .value(),
+          responseStatus.value()
+              .getReasonPhrase()));
     }
 
     final Endpoint apiMethod = method.getAnnotation(Endpoint.class);

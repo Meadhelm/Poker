@@ -1,5 +1,6 @@
 package com.nogo.poker.configuration;
 
+import com.nogo.poker.web.PaginationResolver;
 import com.nogo.poker.web.RequestContextResolver;
 
 import org.springframework.context.MessageSource;
@@ -26,9 +27,14 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter {
 
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/")
+    registry.addResourceHandler("/css/**")
+        .addResourceLocations("/resources/css/")
         .setCachePeriod(31556926);
-    registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/")
+    registry.addResourceHandler("/js/**")
+        .addResourceLocations("/resources/js/")
+        .setCachePeriod(31556926);
+    registry.addResourceHandler("/htm/**")
+        .addResourceLocations("/resources/htm/")
         .setCachePeriod(31556926);
   }
 
@@ -74,7 +80,9 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter {
   @Override
   public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> argumentResolvers) {
     final RequestContextResolver requestContextResolver = new RequestContextResolver();
+    final PaginationResolver paginationResolver = new PaginationResolver();
     argumentResolvers.add(requestContextResolver);
+    argumentResolvers.add(paginationResolver);
   }
 
 }

@@ -1,56 +1,17 @@
-<!doctype=html>
-<html lang="en" ng-app="app">
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
-<title>Poker API Explorer</title>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<script src="https://code.angularjs.org/1.3.0-rc.2/angular.js"></script>
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 <script src="resources/js/controllers.js"></script>
-</head>
-<body>
-    <!--  Menu 
-        TODO: create home page
-        TODO: create content view page
-        TODO: create application view
-    -->
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Poker</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Profile</a></li>
-                    <li><a href="#">Games</a></li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
-    <!-- Content -->
-    <div class="container" ng-controller="ApiController">
-        <div ng-repeat="api in data" heading="{{api.api}}" is-open="group.open">
-            <h2>{{api.api}}</h2>
-            <h3>{{api.type}} - {{api.uri}}</h3>
-            <h3>RequestBody</h3>
-            <pre>{{pretty(api.requestBody)}}</pre>
-            <h3>ResponseStatus</h3>
-            <pre>{{api.responseStatus}}</pre>
-            <h3>ResponseBody</h3>
-            <pre>{{pretty(api.responseBody)}}</pre>
-            <br></br>
-        </div>
-    </div>
+<body ng-app="app" ng-controller="controller">
+
+	<div ng-include="'htm/header.htm'"></div>
+
+	UserId:
+	<input type="text" ng-model="userId">
+	<br> {{data}}
+
 </body>
 </html>

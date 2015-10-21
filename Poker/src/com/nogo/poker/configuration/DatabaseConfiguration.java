@@ -29,10 +29,10 @@ public class DatabaseConfiguration {
     props.setProperty("exposeTransactionAwareSessionFactory", "false");
     props.setProperty("hibernate.jdbc.batch_size", "5");
     props.setProperty("hibernate.connection.SetBigStringTryClob", "true");
-    props.setProperty("hibernate.query.substitutions",  "true 1, false 0");
+    props.setProperty("hibernate.query.substitutions", "true 1, false 0");
     props.setProperty("hibernate.show_sql", "true");
     props.setProperty("hibernate.format_sql", "true");
-    props.setProperty("hibernate.hbm2ddl.auto",  "create-drop");
+    props.setProperty("hibernate.hbm2ddl.auto", "create-drop");
     return props;
   }
 
@@ -53,7 +53,8 @@ public class DatabaseConfiguration {
   @Bean
   public SessionFactory databaseSessionFactory() {
     return new LocalSessionFactoryBuilder(dataSource()).scanPackages("com.nogo.poker")
-        .addProperties(hibernateProperties()).buildSessionFactory();
+        .addProperties(hibernateProperties())
+        .buildSessionFactory();
   }
 
   /**

@@ -45,7 +45,8 @@ public class EndpointLogging {
     final List<String> reqText = new ArrayList<>();
     for (final Object o : jp.getArgs()) {
       if (o != null) {
-        reqText.add(format("%s: %s ", o.getClass().getSimpleName(), gson.toJson(o)));
+        reqText.add(format("%s: %s ", o.getClass()
+            .getSimpleName(), gson.toJson(o)));
       }
     }
     request.set(join(reqText, ""));
@@ -86,8 +87,12 @@ public class EndpointLogging {
     Method invoked = null;
     try {
       final MethodSignature met = (MethodSignature) jp.getSignature();
-      invoked = jp.getSourceLocation().getWithinType().getMethod(met.getMethod().getName(),
-          met.getMethod().getParameterTypes());
+      invoked = jp.getSourceLocation()
+          .getWithinType()
+          .getMethod(met.getMethod()
+              .getName(),
+              met.getMethod()
+                  .getParameterTypes());
     } finally {
       return invoked;
     }
