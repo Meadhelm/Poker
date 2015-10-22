@@ -9,6 +9,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import com.nogo.api.annotation.Document;
 import com.nogo.api.annotation.Endpoint;
 import com.nogo.poker.dao.ResourceDao;
+import com.nogo.poker.domain.LoginRequest;
 import com.nogo.poker.domain.Pagination;
 import com.nogo.poker.domain.RequestContext;
 import com.nogo.poker.domain.User;
@@ -32,6 +33,14 @@ public class UserController {
 
   @Autowired
   private ResourceDao resourceDao;
+
+  @Endpoint(name = "LOGIN")
+  @RequestMapping(value = "/v1/user/login", method = POST, consumes = APPLICATION_JSON_VALUE)
+  @ResponseStatus(CREATED)
+  @ResponseBody
+  public String login(final RequestContext reqCtx, @Valid @RequestBody final LoginRequest user) {
+    return "ok";
+  }
 
   @Endpoint(name = "CREATE.USER")
   @RequestMapping(value = "/v1/users", method = POST, consumes = APPLICATION_JSON_VALUE)

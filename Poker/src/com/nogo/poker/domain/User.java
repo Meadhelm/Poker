@@ -27,10 +27,16 @@ public abstract class User extends Resource {
 
   }
 
+  /**
+   * Constructs a new immutable User object.
+   *
+   * @param builder The builder containing all of the fields set
+   */
   public <B, T> User(final AbstractBuilder<B, T> builder) {
     this.firstName = builder.firstName;
     this.lastName = builder.lastName;
     this.emailAddress = builder.emailAddress;
+    this.password = builder.password;
   }
 
   @Column(name = "first_name", nullable = false, length = 50)
@@ -48,6 +54,11 @@ public abstract class User extends Resource {
   @Email
   @Size(min = 5, max = 50)
   private String emailAddress;
+
+  @Column(name = "password", nullable = false, length = 50)
+  @JsonProperty
+  @Size(min = 1, max = 50)
+  private String password;
 
   public String getFirstName() {
     return firstName;
@@ -73,12 +84,21 @@ public abstract class User extends Resource {
     this.emailAddress = emailAddress;
   }
 
+  public String getPassword() {
+    return password;
+  }
+
+  protected void setPassword(final String password) {
+    this.password = password;
+  }
+
   @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "with")
   public abstract static class AbstractBuilder<B, T> {
 
     private String firstName;
     private String lastName;
     private String emailAddress;
+    private String password;
 
     abstract T build();
 
@@ -94,6 +114,11 @@ public abstract class User extends Resource {
 
     public B withEmailAddress(final String emailAddress) {
       this.emailAddress = emailAddress;
+      return self();
+    }
+
+    public B withPassword(final String password) {
+      this.password = password;
       return self();
     }
 

@@ -18,6 +18,12 @@ public class ResourceDao {
   @Autowired
   private SessionFactory sessionFactory;
 
+  /**
+   * Persists a new hibernate annotated entity.
+   *
+   * @param resource the entity to persist
+   * @return the unique identifier of the newly persisted entity
+   */
   @Transactional(transactionManager = "databaseTransactionManager")
   public String save(final Resource resource) {
     sessionFactory.getCurrentSession()
@@ -25,6 +31,12 @@ public class ResourceDao {
     return resource.getId();
   }
 
+  /**
+   * Updates a previously peristed hibernate annotated entity.
+   *
+   * @param resource the entity to persist
+   * @return the unique identifier of the updated entity
+   */
   @Transactional(transactionManager = "databaseTransactionManager")
   public String update(final Resource resource) {
     sessionFactory.getCurrentSession()

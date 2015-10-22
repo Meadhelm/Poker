@@ -50,6 +50,11 @@ public class DatabaseConfiguration {
     return ds;
   }
 
+  /**
+   * Constructs a new database session factory used by other Spring beans.
+   *
+   * @return local session factory scan package com.nogo.poker
+   */
   @Bean
   public SessionFactory databaseSessionFactory() {
     return new LocalSessionFactoryBuilder(dataSource()).scanPackages("com.nogo.poker")

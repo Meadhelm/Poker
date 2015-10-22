@@ -13,8 +13,8 @@ public class Pagination {
   }
 
   public Pagination(final String start, final String stop) {
-    this.start = valueOf(start);
-    this.stop = valueOf(stop);
+    this.start = start == null ? 100 : valueOf(start);
+    this.stop = stop == null ? 100 : valueOf(stop);
   }
 
   public int getStart() {
